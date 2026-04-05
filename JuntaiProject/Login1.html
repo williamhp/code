@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="juntai.html">
+    <title>Login</title>
+</head>
+<body>
+    <nav>
+        <a href="http://Juntai.html">pagina1</a>
+    </nav>
+       <div id="app"></div>
+       <nav>
+        <button onclick="mostrarpagina('pagina1')"></button>
+       </nav>
+
+      <div id="loginScreen" class="login-container">
+        <div class="login-card">
+            <div class="login-logo">
+                <h1>Juntai</h1>
+                <p>Rede social acadêmica</p>
+            </div>
+            
+            <div class="input-group">
+                <label>📚 RA (Registro Acadêmico)</label>
+                <input type="text" id="raInput" placeholder="Ex: 20240001, RA123456" maxlength="20">
+            </div>
+
+            <div class="input-group">
+                <label>👤 Nome completo</label>
+                <input type="text" id="nomeInput" placeholder="Seu nome completo">
+            </div>
+
+            <div class="input-group">
+                <label>📧 E-mail institucional</label>
+                <input type="email" id="emailInput" placeholder="seu@instituicao.edu.br">
+            </div>
+
+            <button class="login-btn" id="loginBtn">Entrar na rede</button>
+            <p class="ra-hint">🔒 Use seu RA de estudante para acessar a comunidade</p>
+        </div>
+    </div>
+
+    <!-- APP PRINCIPAL (escondido até login) -->
+    <div id="appMain" class="app-main">
+        <div class="container">
+            <div class="header">
+                <h1>conecta+</h1>
+                <div class="header-actions">
+                    <span id="userRaBadge" class="ra-badge"></span>
+                    <button class="header-icon" id="profileHeaderBtn">👤</button>
+                    <button class="header-icon" id="settingsHeaderBtn">⚙️</button>
+                    <button class="logout-btn" id="logoutBtn">Sair</button>
+                </div>
+            </div>
+
+            <!-- HOME -->
+            <div id="homePage" class="page active-page">
+                <div class="mapa-ia">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <span style="font-weight: bold;">🧠 Mapa da IA</span>
+                        <span>🤖 ativo</span>
+                    </div>
+                    <div class="ia-node">🏠 Home → analisando seus interesses</div>
+                    <div class="ia-node">👥 Grupos → 3 sugestões hoje</div>
+                    <div class="ia-node">📅 Agenda → próximo evento em 2 dias</div>
+                </div>
+
+                <h2 style="margin-bottom: 12px;">🏠 Home</h2>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <span class="badge">✨ Sugestões para você</span>
+                    </div>
+                    <div class="user-row">
+                        <div class="avatar">M</div>
+                        <div><strong>Marina Lima</strong><br>🎨 Design | RA: 20241001</div>
+                        <button class="btn-outline" style="margin-left: auto;">Conectar</button>
+                    </div>
+                    <div class="user-row">
+                        <div class="avatar">R</div>
+                        <div><strong>Rafael Souza</strong><br>💻 Computação | RA: 20242002</div>
+                        <button class="btn-outline" style="margin-left: auto;">Conectar</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <span class="badge">🚀 Convites rápidos</span>
+                    </div>
+                    <div class="flex-between" style="margin-bottom: 12px;">
+                        <span>☕ Café hoje 19h - 2 pessoas</span>
+                        <button class="btn-secondary">Participar</button>
+                    </div>
+                    <div class="flex-between">
+                        <span>📚 Estudo em grupo - Quinta 15h</span>
+                        <button class="btn-secondary">Participar</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <span class="badge">⚡ Atividades acontecendo agora</span>
+                    </div>
+                    <p>🎮 <strong>Grupo de jogos online</strong> - 4 pessoas jogando</p>
+                    <p>💬 <strong>Bate-papo sobre cinema</strong> - 2 mensagens novas</p>
+                </div>
+            </div>
+
+            <!-- EXPLORAR -->
+            <div id="explorePage" class="page">
+                <h2 style="margin-bottom: 12px;">🔍 Explorar</h2>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <span class="badge">👥 Pessoas (estudantes)</span>
+                    </div>
+                    <input type="text" placeholder="Buscar por nome, RA ou interesse...">
+                    <div class="user-row">
+                        <div class="avatar">C</div>
+                        <div><strong>Camila Rocha</strong><br>🎓 Psicologia | RA: 20243003</div>
+                        <button class="btn-outline">Ver</button>
+                    </div>
+                    <div class="user-row">
+                        <div class="avatar">T</div>
+                        <div><strong>Thiago M.</strong><br>💻 Ciência da Computação | RA: 20241567</div>
+                        <button class="btn-outline">Ver</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <span class="badge">🎟️ Eventos</span>
+                    </div>
+                    <p><strong>🎨 Workshop de Pintura</strong> - Sábado 14h | 8 vagas</p>
+                    <p><strong>🍕 Noite de Pizza e Conversa</strong> - Sexta 20h | 12 pessoas</p>
+                    <p><strong>🎬 Maratona de filmes</strong> - Domingo 16h | Online</p>
+                    <button class="btn-primary" style="margin-top: 8px; width: 100%;">Ver todos os eventos</button>
+                </div>
+            </div>
+
+            <!-- GRUPOS -->
+            <div id="groupsPage" class="page">
+                <h2 style="margin-bottom: 12px;">👥 Grupos</h2>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <span class="badge">⭐ Meus grupos</span>
+                    </div>
+                    <p><strong>🎨 Criativos Unificados</strong> - 12 membros</p>
+                    <p><strong>📖 Clube do Livro</strong> - 8 membros | Próximo: Quarta 19h</p>
+                    <p><strong>🏃 Corrida Matinal</strong> - 5 membros</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <span class="badge">🔍 Descobrir grupos</span>
+                    </div>
+                    <p><strong>🎧 Amantes de MPB</strong> - 6 membros</p>
+                    <p><strong>🧘 Meditação e Mindfulness</strong> - 4 membros</p>
+                    <p><strong>🎮 Jogos de Tabuleiro</strong> - 9 membros</p>
+                    <button class="btn-outline" style="margin-top: 8px;">Ver mais sugestões</button>
+                </div>
+            </div>
+
+            <!-- MENSAGENS -->
+            <div id="messagesPage" class="page">
+                <h2 style="margin-bottom: 12px;">💬 Mensagens</h2>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <span class="badge">💬 Chats</span>
+                    </div>
+                    <div class="user-row">
+                        <div class="avatar-small">C</div>
+                        <div><strong>Carol M.</strong><br>Última: "Vamos amanhã?"</div>
+                    </div>
+                    <div class="user-row">
+                        <div class="avatar-small">G</div>
+                        <div><strong>Grupo Tech&Café</strong><br>3 mensagens novas</div>
+                    </div>
+                    <div class="user-row">
+                        <div class="avatar-small">R</div>
+                        <div><strong>Rafael</strong><br>Online agora</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <span class="badge">💡 Quebra-gelos</span>
+                    </div>
+                    <div style="background: #f1f5f9; padding: 12px; border-radius: 16px; margin-bottom: 8px;">
+                        🎤 "Se você pudesse viajar para qualquer lugar agora, para onde iria?"
+                    </div>
+                    <div style="background: #f1f5f9; padding: 12px; border-radius: 16px; margin-bottom: 8px;">
+                        📸 "Qual foi o melhor filme que você viu esse mês?"
+                    </div>
+                    <div style="background: #f1f5f9; padding: 12px; border-radius: 16px;">
+                        🎮 "Qual jogo você nunca enjoa de jogar?"
+                    </div>
+                    <button class="btn-outline" style="margin-top: 12px;">Enviar quebra-gelo aleatório</button>
+                </div>
+            </div>
+
+            <!-- AGENDA -->
+            <div id="calendarPage" class="page">
+                <h2 style="margin-bottom: 12px;">📅 Agenda / Eventos</h2>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <span class="badge">📌 Eventos confirmados</span>
+                    </div>
+                    <p>🗓️ <strong>Grupo de Estudos JS</strong> - Amanhã 15h</p>
+                    <p>🗓️ <strong>Café da Manhã Coletivo</strong> - 12/04 9h</p>
+                    <p>🗓️ <strong>Workshop de Fotografia</strong> - 15/04 14h</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <span class="badge">✨ Eventos sugeridos</span>
+                    </div>
+                    <p><strong>🎨 Oficina de Aquarela</strong> - Terça 19h (online)</p>
+                    <p><strong>☕ Happy Hour Conecta+</strong> - Quinta 18h30</p>
+                    <button class="btn-primary" style="margin-top: 8px;">Adicionar à agenda</button>
+                </div>
+
+                <div class="card">
+                    <div class="flex-between">
+                        <span>📅 Integrar com Google Calendar</span>
+                        <button class="btn-outline">Conectar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PERFIL -->
+            <div id="profilePage" class="page">
+                <div class="flex-between" style="margin-bottom: 16px;">
+                    <h2>👤 Perfil</h2>
+                    <button class="btn-outline" id="closeProfileBtn">Fechar</button>
+                </div>
+                
+                <div class="profile-avatar" id="profileAvatar"></div>
+                
+                <div class="card">
+                    <h3>📚 Dados Acadêmicos</h3>
+                    <p><strong>RA:</strong> <span id="profileRa"></span></p>
+                    <p><strong>E-mail:</strong> <span id="profileEmail"></span></p>
+                </div>
+
+                <div class="card">
+                    <h3>📝 Bio simples</h3>
+                    <textarea id="bioTextarea" rows="2" placeholder="Escreva algo sobre você...">Estudante buscando novas amizades e conexões!</textarea>
+                </div>
+
+                <div class="card">
+                    <h3>🎯 Interesses</h3>
+                    <div id="interestsContainer">
+                        <span class="tag selected">🎬 Cinema</span>
+                        <span class="tag">⚽ Esportes</span>
+                        <span class="tag selected">🎮 Games</span>
+                        <span class="tag">✈️ Viagem</span>
+                        <span class="tag selected">📚 Leitura</span>
+                        <span class="tag">🎵 Música</span>
+                    </div>
+                    <button class="btn-secondary" style="margin-top: 8px;">+ Adicionar interesse</button>
+                </div>
+
+                <div class="card">
+                    <h3>⏰ Disponibilidade</h3>
+                    <select id="availabilitySelect">
+                        <option>Manhã (8h-12h)</option>
+                        <option>Tarde (14h-18h)</option>
+                        <option selected>Noite (19h-23h)</option>
+                        <option>Fins de semana</option>
+                    </select>
+                </div>
+
+                <div class="card">
+                    <h3>👥 Preferências sociais</h3>
+                    <select id="socialPrefSelect">
+                        <option selected>Prefiro grupos pequenos (3-5 pessoas)</option>
+                        <option>Grupos médios (6-10 pessoas)</option>
+                        <option>Grupos grandes (10+ pessoas)</option>
+                        <option>Encontros individuais</option>
+                    </select>
+                </div>
+
+                <button class="btn-primary" style="width: 100%;" id="saveProfileBtn">Salvar alterações</button>
+            </div>
+
+            <!-- Tab Bar -->
+            <div class="tab-bar">
+                <button class="tab-item active" data-page="home">🏠<span>Início</span></button>
+                <button class="tab-item" data-page="explore">🔍<span>Explorar</span></button>
+                <button class="tab-item" data-page="groups">👥<span>Grupos</span></button>
+                <button class="tab-item" data-page="messages">💬<span>Msgs</span></button>
+                <button class="tab-item" data-page="calendar">📅<span>Agenda</span></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL CONFIGURAÇÕES -->
+    <div id="settingsModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 100; align-items: center; justify-content: center;">
+        <div style="background: white; max-width: 500px; width: 90%; margin: auto; border-radius: 28px; padding: 24px; max-height: 80vh; overflow-y: auto;">
+            <div class="flex-between" style="margin-bottom: 20px;">
+                <h2>⚙️ Configurações</h2>
+                <button id="closeSettingsBtn" style="font-size: 24px; background: none; border: none; cursor: pointer;">✕</button>
+            </div>
+            
+            <h3>🔒 Privacidade</h3>
+            <div class="setting-item">
+                <span>Quem pode ver meu perfil?</span>
+                <select id="privacySelect">
+                    <option>Todos</option>
+                    <option selected>Apenas conexões</option>
+                    <option>Apenas estudantes da mesma instituição</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <span>Mostrar RA no perfil</span>
+                <div class="switch active" id="showRaSwitch">
+                    <div class="switch-knob"></div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 16px;">🔔 Notificações</h3>
+            <div class="setting-item">
+                <span>Novas mensagens</span>
+                <div class="switch active" id="notifMsgSwitch">
+                    <div class="switch-knob"></div>
+                </div>
+            </div>
+            <div class="setting-item">
+                <span>Convites e eventos</span>
+                <div class="switch active" id="notifEventSwitch">
+                    <div class="switch-knob"></div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 16px;">👁️ Controle de visibilidade</h3>
+            <div class="setting-item">
+                <span>Modo invisível</span>
+                <div class="switch" id="invisibleSwitch">
+                    <div class="switch-knob"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #042464;
+            color: #1e293b;
+        }
+
+        /* Container principal */
+        .container {
+            margin-top: 500px;
+            max-width: 500px;
+            margin: 0 auto;
+            background: #f5f7fb;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 80px;
+        }
+
+        /* Tela de Login */
+        .login-container {
+            max-width: 500px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 32px;
+            padding: 40px 24px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .login-logo h1 {
+            font-size: 32px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .login-logo p {
+            color: #64748b;
+            margin-top: 8px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #334155;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 16px;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139,92,246,0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: white;
+            border: none;
+            border-radius: 40px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 12px;
+        }
+
+        .ra-hint {
+            font-size: 12px;
+            color: #94a3b8;
+            text-align: center;
+            margin-top: 16px;
+        }
+
+        /* App Principal (inicialmente escondido) */
+        .app-main {
+            display: none;
+        }
+
+        .app-main.show {
+            display: block;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 16px 20px;
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .header-icon {
+            font-size: 24px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 4px;
+        }
+
+        /* Tab Bar */
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 500px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.96);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 16px 20px;
+            border-top: 1px solid #e2e8f0;
+            z-index: 20;
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            background: none;
+            border: none;
+            font-size: 12px;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .tab-item.active {
+            color: #8b5cf6;
+        }
+
+        .tab-icon {
+            font-size: 22px;
+        }
+
+        /* Pages */
+        .page {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .page.active-page {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            border: 1px solid #edf2f7;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .badge {
+            background: #ede9fe;
+            color: #6d28d9;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: #8b5cf6;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid #cbd5e1;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .btn-secondary {
+            background: #f1f5f9;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+        }
+
+        .tag {
+            background: #f1f5f9;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            display: inline-block;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tag.selected {
+            background: #8b5cf6;
+            color: white;
+        }
+
+        .user-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(145deg, #a78bfa, #7c3aed);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .avatar-small {
+            width: 40px;
+            height: 40px;
+            background: #c7d2fe;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .setting-item {
+            padding: 14px 0;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .switch {
+            width: 48px;
+            height: 26px;
+            background: #cbd5e1;
+            border-radius: 30px;
+            position: relative;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .switch.active {
+            background: #8b5cf6;
+        }
+
+        .switch-knob {
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 3px;
+            transition: 0.2s;
+        }
+
+        .switch.active .switch-knob {
+            left: 23px;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(145deg, #a78bfa, #7c3aed);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: white;
+            margin: 0 auto 16px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 14px;
+            margin-bottom: 12px;
+            font-family: inherit;
+        }
+
+        .mapa-ia {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .ia-node {
+            background: rgba(255,255,255,0.2);
+            border-radius: 16px;
+            padding: 12px;
+            margin-bottom: 8px;
+        }
+
+        hr {
+            margin: 16px 0;
+            border-color: #eef2ff;
+        }
+
+        .ra-badge {
+            background: #e0e7ff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #4338ca;
+        }
+
+        .logout-btn {
+            background: #fee2e2;
+            color: #dc2626;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+        }
+    </style>
+</html>
