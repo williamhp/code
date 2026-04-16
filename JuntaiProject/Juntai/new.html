@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Conecta+  | App Social</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #032363;
+            color: #1e293b;
+            padding-bottom: 70px;
+        }
+
+        /* Container principal */
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #f5f7fb;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Cabeçalho */
+        .header {
+            background: white;
+            padding: 16px 20px;
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Navegação inferior (Tab Bar) */
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 500px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.96);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 16px 20px;
+            border-top: 1px solid #e2e8f0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            z-index: 20;
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            background: none;
+            border: none;
+            font-size: 12px;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .tab-item.active {
+            color: #8b5cf6;
+        }
+
+        .tab-icon {
+            font-size: 24px;
+        }
+
+        /* Páginas */
+        .page {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .page.active-page {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        /* Cards e componentes */
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            border: 1px solid #edf2f7;
+            transition: transform 0.1s;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .badge {
+            background: #ede9fe;
+            color: #6d28d9;
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: #8b5cf6;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid #cbd5e1;
+            padding: 8px 14px;
+            border-radius: 40px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .tag {
+            background: #f1f5f9;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: inline-block;
+            margin-right: 6px;
+            margin-bottom: 6px;
+        }
+
+        .user-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(145deg, #a78bfa, #7c3aed);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-bar {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 40px;
+            border: 1px solid #e2e8f0;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .grupo-card {
+            border-left: 4px solid #8b5cf6;
+        }
+
+        .mensagem-bubble {
+            background: #f1f5f9;
+            padding: 10px 14px;
+            border-radius: 18px;
+            margin-bottom: 12px;
+        }
+
+        hr {
+            margin: 16px 0;
+            border-color: #eef2ff;
+        }
+
+        /* Estilos para a nova simulação de chat com estudantes */
+        .chat-message {
+            display: flex;
+            margin-bottom: 12px;
+        }
+        .chat-message.incoming {
+            justify-content: flex-start;
+        }
+        .chat-message.outgoing {
+            justify-content: flex-end;
+        }
+        .chat-bubble {
+            max-width: 80%;
+            padding: 10px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .incoming .chat-bubble {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-bottom-left-radius: 4px;
+        }
+        .outgoing .chat-bubble {
+            background: #8b5cf6;
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+        .chat-time {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 4px;
+            margin-left: 8px;
+        }
+        .quick-replies {
+            display: flex;
+            gap: 8px;
+            margin: 12px 0;
+            flex-wrap: wrap;
+        }
+        .quick-reply-btn {
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            padding: 8px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .quick-reply-btn:hover {
+            background: #e2e8f0;
+        }
+        .message-input-sim {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+        }
+        .message-input-sim input {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 40px;
+            border: 1px solid #e2e8f0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>conecta+Juntai</h1>
+    </div>
+
+    <!-- PÁGINAS -->
+    <!-- Home -->
+    <div id="homePage" class="page active-page">
+        <h2 style="margin-bottom: 12px;">🏠 Início</h2>
+
+        <div class="card">
+            <div class="card-header">
+                <span class="badge">🔥 Sugestões para você</span>
+            </div>
+            <div class="user-row">
+                <div class="avatar">M</div>
+                <div><strong>Marina Lima</strong><br>🎨 Design | 📍 Centro</div>
+                <button class="btn-outline" style="margin-left: auto;">Conectar</button>
+            </div>
+            <div class="user-row">
+                <div class="avatar">R</div>
+                <div><strong>Rafael Souza</strong><br>💻 Computação | 🧗 Trilha</div>
+                <button class="btn-outline" style="margin-left: auto;">Conectar</button>
+            </div>
+            <div class="tag">🎧 Música</div>
+            <div class="tag">📚 Leitura</div>
+            <div class="tag">☕ Café</div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <span class="badge">⚡ Atividades acontecendo agora</span>
+            </div>
+            <p>📖 <strong>Grupo de estudos React</strong> - 3 pessoas online</p>
+            <p>☕ <strong>Café no Campus</strong> - 2 min atrás</p>
+            <button class="btn-primary" style="margin-top: 8px; width: 100%;">Participar</button>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <span class="badge">🚀 Convites rápidos</span>
+            </div>
+            <div class="flex-between">
+                <span>🎲 Jogo de tabuleiro hoje 19h</span>
+                <button class="btn-outline">Quero ir</button>
+            </div>
+            <hr>
+            <div class="flex-between">
+                <span>📚 Biblioteca - estudo em dupla</span>
+                <button class="btn-outline">Quero ir</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Explorar -->
+    <div id="explorePage" class="page">
+        <h2 style="margin-bottom: 12px;">🔍 Explorar</h2>
+        <input type="text" class="search-bar" placeholder="Buscar pessoas ou eventos..." id="searchInput">
+
+        <div class="card">
+            <h3>👥 Buscar por Interesses</h3>
+            <div><span class="tag">🎬 Cinema</span><span class="tag">⚽ Esportes</span><span class="tag">🎮 Games</span><span class="tag">✈️ Viagem</span></div>
+            <button class="btn-primary" style="margin-top: 12px;">Filtrar</button>
+        </div>
+
+        <div class="card">
+            <h3>📚 Por Curso / Área</h3>
+           <div><span class="tag">Ciência da Computação</span><span class="tag">Análise e desenvolvimento de Sistemas</span><span class="tag">Big Data e Inteligência Analítica</span><span class="tag">Design</span><span class="tag">Design Games</span></div>
+        </div>
+
+        <div class="card">
+            <h3>⏰ Disponibilidade</h3>
+            <div><span class="tag">Manhã</span><span class="tag">Tarde</span><span class="tag">Noite</span><span class="tag">Fins de semana</span></div>
+        </div>
+
+        <div class="card">
+            <h3>🎟️ Eventos próximos</h3>
+            <p><strong>Workshop de Fotografia</strong> - Sábado 14h</p>
+            <p><strong>Noite de Pizza e Conversas</strong> - Sexta 20h</p>
+            <button class="btn-outline">Ver mais eventos</button>
+        </div>
+    </div>
+
+    <!-- Grupos -->
+    <div id="groupsPage" class="page">
+        <h2 style="margin-bottom: 12px;">👥 Grupos</h2>
+
+        <div class="card grupo-card">
+            <div class="card-header">
+                <span class="badge">✨ Grupo automático</span>
+                <span>3-5 pessoas</span>
+            </div>
+            <p><strong>👩‍💻 Tech & Café</strong> - Ana, Pedro, você, Julia</p>
+            <p>🗓️ Próximo encontro: Quarta 18h</p>
+            <button class="btn-primary">Entrar no chat</button>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <span>⭐ Meus grupos</span>
+            </div>
+            <p>🎨 Criativos Unificados - 12 membros</p>
+            <p>📖 Clube do Livro - 8 membros</p>
+            <p>🏃 Corrida Matinal - 5 membros</p>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <span>💡 Sugestões de novos grupos</span>
+            </div>
+            <p>🎧 Amantes de MPB · 6 membros</p>
+            <p>🧘 Meditação e Mindfulness · 4 membros</p>
+            <button class="btn-outline">Participar</button>
+        </div>
+    </div>
+
+    <!-- Mensagens (MODIFICADA: sem quebra-gelos, com simulação de interações estudantis) -->
+    <div id="messagesPage" class="page">
+        <h2 style="margin-bottom: 12px;">💬 Mensagens</h2>
+
+        <!-- Lista de conversas com estudantes -->
+        <div class="card">
+            <div class="card-header">
+                <span class="badge">👥 Conversas com estudantes</span>
+            </div>
+            <div class="user-row">
+                <div class="avatar">C</div>
+                <div><strong>Carol M.</strong><br><span style="font-size:13px;">"Vamos amanhã?" · 10min atrás</span></div>
+            </div>
+            <div class="user-row">
+                <div class="avatar">G</div>
+                <div><strong>Grupo Tech&Café</strong><br><span style="font-size:13px;">3 mensagens novas · Ana: "Alguém..."</span></div>
+            </div>
+            <div class="user-row">
+                <div class="avatar">L</div>
+                <div><strong>Lucas Andrade</strong><br><span style="font-size:13px;">"Te mandei o link da aula" · 1h atrás</span></div>
+            </div>
+        </div>
+
+        <!-- Simulação de chat ativo com um estudante (ex.: Carol) -->
+        <div class="card">
+            <div class="card-header">
+                <span class="badge">💬 Chat com Carol M. (Estudante de Design)</span>
+            </div>
+
+            <!-- Mensagens trocadas -->
+            <div class="chat-message incoming">
+                <div class="chat-bubble">
+                    Oi! Tudo bem? Vi que você também vai no workshop de sábado.
+                    <div class="chat-time">11:32</div>
+                </div>
+            </div>
+            <div class="chat-message outgoing">
+                <div class="chat-bubble">
+                    Oi Carol! Tudo sim 😊 Vou sim! Você já fez algum workshop deles antes?
+                    <div class="chat-time">11:35</div>
+                </div>
+            </div>
+            <div class="chat-message incoming">
+                <div class="chat-bubble">
+                    Fiz o de design thinking mês passado, foi muito bom! Se quiser podemos ir juntas.
+                    <div class="chat-time">11:38</div>
+                </div>
+            </div>
+
+            <!-- Respostas rápidas (simulação) -->
+            <div class="quick-replies">
+                <span class="quick-reply-btn">👍 Claro, bora juntas!</span>
+                <span class="quick-reply-btn">📍 Onde nos encontramos?</span>
+                <span class="quick-reply-btn">📅 Ver detalhes do evento</span>
+            </div>
+
+            <!-- Campo de mensagem simulado -->
+            <div class="message-input-sim">
+                <input type="text" placeholder="Digite uma mensagem..." value="Que legal! Vamos sim 😄">
+                <button class="btn-primary" style="padding: 12px 20px;">Enviar</button>
+            </div>
+            <p style="font-size:12px; margin-top: 8px; color: #64748b;">✨ Simulação: as respostas rápidas e o envio são demonstrativos.</p>
+        </div>
+
+        <!-- Outra interação estudantil: convite para grupo de estudo -->
+        <div class="card">
+            <div class="card-header">
+                <span class="badge">📚 Convite de estudo</span>
+            </div>
+            <p><strong>Rafael Souza</strong> convidou você para o grupo "Revisão de Cálculo".</p>
+            <div style="display: flex; gap: 8px; margin-top: 12px;">
+                <button class="btn-primary">Aceitar</button>
+                <button class="btn-outline">Recusar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Agenda / Eventos -->
+    <div id="calendarPage" class="page">
+        <h2 style="margin-bottom: 12px;">📅 Agenda & Eventos</h2>
+
+        <div class="card">
+            <div class="card-header">
+                <span class="badge">✨ Eventos sugeridos</span>
+            </div>
+            <p><strong>🎨 Oficina de Aquarela</strong> - Terça 19h (online)</p>
+            <p><strong>☕ Happy Hour Conecta+</strong> - Quinta 18h30</p>
+            <p><strong>📚 Troca de Livros</strong> - Sábado 10h</p>
+            <button class="btn-primary" style="margin-top: 8px;">Confirmar presença</button>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <span>✅ Meus eventos confirmados</span>
+            </div>
+            <p>🗓️ <strong>Grupo de Estudos JS</strong> - Amanhã 15h</p>
+            <p>🗓️ <strong>Café da Manhã Coletivo</strong> - 12/04 9h</p>
+        </div>
+
+        <div class="card">
+            <div class="flex-between">
+                <span>📅 Integrar com Google Calendar</span>
+                <button class="btn-outline">Conectar</button>
+            </div>
+            <p style="font-size:12px; margin-top: 8px;">Sincronize seus eventos e não perca nenhum rolê.</p>
+        </div>
+    </div>
+
+    <!-- Barra de navegação inferior -->
+    <div class="tab-bar">
+        <button class="tab-item active" data-page="home">🏠<span>Início</span></button>
+        <button class="tab-item" data-page="explore">🔍<span>Explorar</span></button>
+        <button class="tab-item" data-page="groups">👥<span>Grupos</span></button>
+        <button class="tab-item" data-page="messages">💬<span>Mensagens</span></button>
+        <button class="tab-item" data-page="calendar">📅<span>Agenda</span></button>
+    </div>
+</div>
+
+<script>
+    // Controle de navegação entre páginas
+    const pages = {
+        home: document.getElementById('homePage'),
+        explore: document.getElementById('explorePage'),
+        groups: document.getElementById('groupsPage'),
+        messages: document.getElementById('messagesPage'),
+        calendar: document.getElementById('calendarPage')
+    };
+
+    const tabs = document.querySelectorAll('.tab-item');
+
+    function switchPage(pageId) {
+        Object.values(pages).forEach(page => {
+            page.classList.remove('active-page');
+        });
+        if(pages[pageId]) {
+            pages[pageId].classList.add('active-page');
+        }
+        tabs.forEach(tab => {
+            const tabPage = tab.getAttribute('data-page');
+            if(tabPage === pageId) {
+                tab.classList.add('active');
+            } else {
+                tab.classList.remove('active');
+            }
+        });
+    }
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const pageId = tab.getAttribute('data-page');
+            if(pageId) switchPage(pageId);
+        });
+    });
+
+    // Simulação de interações (alerts)
+    document.querySelectorAll('.btn-outline, .btn-primary').forEach(btn => {
+        if(!btn.closest('.tab-bar')) {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const text = btn.innerText;
+                if(text.includes('Conectar') || text.includes('Participar') || text.includes('Quero ir')) {
+                    alert('✨ Conexão simulada enviada!');
+                } else if(text.includes('Entrar no chat')) {
+                    alert('💬 Abrindo conversa do grupo...');
+                } else if(text.includes('Enviar')) {
+                    alert('📨 Mensagem enviada (simulação)');
+                } else if(text.includes('Aceitar')) {
+                    alert('✅ Convite aceito! Você foi adicionado ao grupo.');
+                } else if(text.includes('Recusar')) {
+                    alert('❌ Convite recusado.');
+                } else {
+                    alert('🚀 Ação registrada (demo)!');
+                }
+            });
+        }
+    });
+
+    // Respostas rápidas do chat
+    document.querySelectorAll('.quick-reply-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const reply = btn.innerText;
+            alert(`💬 Resposta rápida: "${reply}" enviada!`);
+        });
+    });
+
+    // Busca (mock)
+    const search = document.getElementById('searchInput');
+    if(search) {
+        search.addEventListener('input', (e) => {
+            console.log('Buscando: ', e.target.value);
+        });
+    }
+
+    console.log('App com simulação de interações estudantis ✅');
+</script>
+</body>
+</html>

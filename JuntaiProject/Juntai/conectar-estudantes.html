@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Junta Aí · Conectar Estudantes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(145deg, #032363 30%, #e6edf9 150%);
+      color: #1e293b;
+      min-height: 100vh;
+      padding: 20px 16px 80px;
+    }
+    .app-container {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .header-bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .back-btn {
+      background: rgba(255,255,255,0.9);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #032363;
+      font-size: 1.3rem;
+      text-decoration: none;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #032363, #8b5cf6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .card {
+      background: white;
+      border-radius: 24px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 2px solid #032363;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    }
+    .filter-chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .chip {
+      background: #f1f5f9;
+      padding: 8px 16px;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+    .chip.active {
+      background: #032363;
+      color: white;
+    }
+    .student-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid #eef2f6;
+    }
+    .student-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #a78bfa, #7c3aed);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 1.8rem;
+      flex-shrink: 0;
+    }
+    .student-info { flex:1; }
+    .student-name { font-weight: 700; font-size: 1.1rem; }
+    .student-details { font-size: 0.8rem; color: #475569; margin: 4px 0; }
+    .match-percent {
+      background: #dcfce7;
+      color: #166534;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 30px;
+      font-size: 0.75rem;
+    }
+    .connect-btn {
+      background: #032363;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+    .toast-msg {
+      visibility: hidden;
+      min-width: 200px;
+      background: #1f3a7c;
+      color: white;
+      text-align: center;
+      border-radius: 40px;
+      padding: 12px 20px;
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.9rem;
+      opacity: 0;
+      transition: 0.2s;
+      z-index: 1000;
+    }
+    .toast-msg.show { visibility: visible; opacity: 1; }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <div class="header-bar">
+    <a href="Juntaitest.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+    <h1><i class="fas fa-user-friends"></i> Conectar</h1>
+  </div>
+
+  <!-- Filtros -->
+  <div class="card">
+    <p style="font-weight:600; margin-bottom:12px;">🎯 Filtrar por interesse</p>
+    <div class="filter-chips">
+      <span class="chip active" data-filter="all">Todos</span>
+      <span class="chip" data-filter="curso">📚 Mesmo curso</span>
+      <span class="chip" data-filter="materia">📝 Mesma matéria</span>
+      <span class="chip" data-filter="hobby">🎨 Hobbies</span>
+    </div>
+  </div>
+
+  <!-- Lista de estudantes -->
+  <div id="studentsList" class="card" style="padding: 8px 20px;">
+    <!-- preenchido via JS -->
+  </div>
+</div>
+
+<div id="toastMsg" class="toast-msg">✨ Conexão enviada!</div>
+
+<script>
+  const students = [
+    { nome: 'Ana Clara', curso: 'Engenharia', materia: 'Cálculo II', hobbies: ['música','café'], match: 94, avatar: 'A' },
+    { nome: 'João Pedro', curso: 'Sistemas de Informação', materia: 'Banco de Dados', hobbies: ['games','futebol'], match: 87, avatar: 'J' },
+    { nome: 'Letícia Santos', curso: 'Ciência da Computação', materia: 'Algoritmos', hobbies: ['leitura','cinema'], match: 92, avatar: 'L' },
+    { nome: 'Rafael Oliveira', curso: 'Matemática', materia: 'Cálculo II', hobbies: ['trilha','xadrez'], match: 96, avatar: 'R' },
+    { nome: 'Camila Rocha', curso: 'Design', materia: 'UX/UI', hobbies: ['desenho','música'], match: 89, avatar: 'C' }
+  ];
+
+  let filtroAtual = 'all';
+  const container = document.getElementById('studentsList');
+  const toast = document.getElementById('toastMsg');
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2000);
+  }
+
+  function renderStudents() {
+    const filtrados = students.filter(s => {
+      if (filtroAtual === 'all') return true;
+      if (filtroAtual === 'curso') return s.curso.toLowerCase().includes('engenharia') || s.curso.includes('Computação');
+      if (filtroAtual === 'materia') return s.materia.includes('Cálculo') || s.materia.includes('Banco');
+      if (filtroAtual === 'hobby') return s.hobbies.length > 0;
+      return true;
+    });
+
+    let html = '';
+    filtrados.forEach(s => {
+      html += `
+        <div class="student-card">
+          <div class="student-avatar">${s.avatar}</div>
+          <div class="student-info">
+            <div class="student-name">${s.nome} <span class="match-percent"><i class="fas fa-star"></i> ${s.match}% match</span></div>
+            <div class="student-details">${s.curso} · ${s.materia}</div>
+            <div class="student-details">${s.hobbies.map(h => `#${h}`).join(' ')}</div>
+          </div>
+          <button class="connect-btn" data-nome="${s.nome}"><i class="fas fa-handshake"></i> Conectar</button>
+        </div>
+      `;
+    });
+    container.innerHTML = html || '<p style="padding:24px; text-align:center;">Nenhum estudante encontrado.</p>';
+
+    document.querySelectorAll('.connect-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const nome = btn.dataset.nome;
+        showToast(`🤝 Pedido de conexão enviado para ${nome}!`);
+        btn.disabled = true;
+        btn.style.opacity = '0.6';
+        btn.textContent = 'Enviado ✓';
+      });
+    });
+  }
+
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      filtroAtual = chip.dataset.filter;
+      renderStudents();
+    });
+  });
+
+  renderStudents();
+</script>
+</body>
+</html>

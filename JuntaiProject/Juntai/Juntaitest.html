@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title> Junta Aí  | App Social</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(145deg , #032363 30%, #e6edf9 150%);
+            color: #1e293b;
+            padding-bottom: 70px;
+            
+        }
+
+        /* Container principal */
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #f5f7fb;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Cabeçalho */
+        .header {
+            display: flex;
+            background: linear-gradient(135deg, #1e2b6e, #2b4c9e);
+            padding: 16px 20px;
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #032363, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: white;
+            margin-top: 25px;
+            width: 100%;
+        }
+
+        /* Navegação inferior (Tab Bar) */
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 500px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.96);
+           /* backdrop-filter:blur(10px);*/
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 16px 20px;
+            border-top: 1px solid #e2e8f0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            z-index: 20;
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            background: none;
+            border: none;
+            font-size: 12px;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .tab-item.active {
+            color: #8b5cf6;
+        }
+
+        .tab-icon {
+            font-size: 24px;
+        }
+
+        /* Páginas */
+        .page {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .page.active-page {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        /* Cards e componentes */
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            border: 4px solid #032363;
+            transition: transform 0.1s;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .badge {
+            background: #ede9fe;
+            color: #1e2b6e;
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: #032363;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-outline {
+            background: #1e2b6e;
+            border: 1.5px solid #cbd5e1;
+            padding: 8px 14px;
+            border-radius: 40px;
+            font-weight: 500;
+            cursor: pointer;
+            color: white;
+        }
+
+        .tag {
+            background: #f1f5f9;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: inline-block;
+            margin-right: 6px;
+            margin-bottom: 6px;
+        }
+
+        .user-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(#032363);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-bar {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 40px;
+            border: 1px solid #e2e8f0;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .grupo-card {
+            border: 4px solid #032363;
+        }
+        button{
+            background-color:#032363;
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            text-decoration: none;
+            padding: 10px ;
+            border-radius: 36px;
+            border: #032363 solid 2px;
+            background: #032363;
+            font-size: 14px;
+            margin-bottom: 2px;
+            cursor: pointer;
+        }
+        .mensagem-bubble {
+            background: #f1f5f9;
+            padding: 10px 14px;
+            border-radius: 18px;
+            margin-bottom: 12px;
+        }
+
+        hr {
+            margin: 16px 0;
+            border-color: #eef2ff;
+        }
+        .log{
+        width: 100px;
+        height: 100px;
+        margin-left: 250px;
+        border-radius: 80px;
+        }
+        .conectar{
+            background-color: #032363;
+            color: white;
+            border: none;
+            padding: 10px 10px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            justify-content: right;
+            align-items: right;
+        }
+        .em{
+            background-color:#032363;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            border-radius: 16px;
+            border: #032363 solid 10px;
+        }
+        .eg{
+            margin-top: 4rem;
+            background-color:#032363;
+            color: white;
+            text-decoration: none;
+            
+            border-radius: 16px;
+            border: #032363 solid 2px;
+        }
+        .ve{
+            background-color:#032363;
+            color: white;
+            text-decoration: none;
+            padding: 10px ;
+            border-radius: 36px;
+            border: #032363 solid 2px;
+            margin-bottom: 2px;
+        }
+        p{
+        
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    
+<div class="container">
+    <div class="header">
+        <h1>Junta Aí</h1>
+        <img class="log" src="logo.png" alt="">
+    </div>
+
+    <!-- PÁGINAS -->
+    <!-- Home -->
+    <div id="homePage" class="page active-page">
+        <h2 style="margin-bottom: 12px;">🏠 Início</h2>
+        
+        <div class="card">
+            <div class="card-header">
+                <span class="badge">🔥 Sugestões para você</span>
+            </div>
+            <div class="user-row">
+                <div class="avatar">M</div>
+                <div><strong>Marina Lima</strong><br>🎨 Design | 📍 Centro</div>
+                <button class="conectar"> <a href="conectar-estudantes.html" class="btn-online">Conectar</a></button>
+            </div>
+            <div class="user-row">
+                <div class="avatar">R</div>
+                <div><strong>Rafael Souza</strong><br>💻 Computação | 🧗 Trilha</div>
+                <button class="conectar"> <a href="perfil-estudante.html" class="btn-online">Conectar</a></button>
+            </div>
+            <div class="tag">🎧 Música</div>
+            <div class="tag">📚 Leitura</div>
+            <div class="tag">☕ Café</div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <span class="badge">⚡ Atividades acontecendo agora</span>
+            </div>
+            <p>📖 <strong>Grupo de estudos React</strong> - 3 pessoas online</p>
+            <p>☕ <strong>Café no Campus</strong> - 2 min atrás</p>
+            <button><a href="participar.html">Participar</a></button>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <span class="badge">🚀 Feed de Atividades</span>
+            </div>
+            <div class="flex-between">
+                <span>🎲 Jogo de tabuleiro hoje 19h</span>
+                <button > <a href="feed-atividades.html">Quero ir</a></button>
+            </div>
+            <hr>
+            <div class="flex-between">
+                <span>📚 Encontro no Cafe estudo em dupla</span>
+                 <button > <a href="feed-atividades.html">Quero ir</a></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Explorar -->
+    <div id="explorePage" class="page">
+        <h2 style="margin-bottom: 12px;">🔍 Explorar</h2>
+        <input type="text" class="search-bar" placeholder="Buscar pessoas ou eventos..." id="searchInput">
+        
+        <div class="card">
+            <h3>👥 Buscar por Interesses</h3>
+            <div><span class="tag">🎬 Cinema</span><span class="tag">⚽ Esportes</span><span class="tag">🎮 Games</span><span class="tag">✈️ Viagem</span></div>
+             <button><a href="filtrar-amigos-grupos.html.html" style="text-decoration: none;">Filtrar</a></button>
+           
+        </div>
+
+        <div class="card">
+            <h3>📚 Por Curso / Área</h3>
+            <div><span class="tag">Ciência da Computação</span><span class="tag">Análise e desenvolvimento de Sistemas</span><span class="tag">Big Data e Inteligência Analítica</span><span class="tag">Design</span></span><span class="tag">Design Games</span></div>
+        </div>
+
+        <div class="card">
+            <h3>⏰ Disponibilidade</h3>
+            <div><span class="tag">Manhã</span><span class="tag">Tarde</span><span class="tag">Noite</span><span class="tag">Fins de semana</span></div>
+            <button><a href="Confirmar-presenca.html">Confirmar Presença</a></button>
+        </div>
+
+        <div class="card">
+            <h3>🎟️ Eventos próximos</h3>
+            <p><strong>Workshop de Fotografia</strong> - Sábado 14h</p>
+            <p><strong>Noite de Pizza e Conversas</strong> - Sexta 20h</p>
+            <a href="eventos.html" class="ve" class="btn">Ver Mais eventos</a>
+        </div>
+    </div>
+
+    <!-- Grupos -->
+    <div id="groupsPage" class="page">
+        <h2 style="margin-bottom: 12px;">👥 Grupos</h2>
+        
+        <div class="card grupo-card">
+            <div class="card-header">
+                <span class="badge">✨ Grupo automático</span>
+                <span>3-5 pessoas</span>
+            </div>
+            <p><strong> Parceiro de Estudos</strong> - Ana, Pedro, você, Julia</p>
+            <p>🗓️ Próximo encontro: Quarta 18h</p>
+            <a href="parceirosestudosteste.html" class="eg" class="btn" >Entrar no Grupo</a>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <span>⭐ <strong>Meus grupos</strong></span>
+            </div>
+            <p>🎨 Criativos Unificados - 12 membros</p>
+            <p>📖 Clube do Livro - 8 membros</p>
+            <p>🏃 Corrida Matinal - 5 membros</p>
+            <button><a href="meusamigos.html">Ver Grupos e Amigos</a></button>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <span>💡<strong>Sugestões de novas Pessoas</strong></span>
+            </div>
+            <p>🎧 Amantes de MPB · 6 membros</p>
+            <p>🧘 Meditação e Mindfulness · 4 membros</p>
+            <button > <a href="conectar-estudantes.html" >Ver Detalhes</a></button>
+        </div>
+    </div>
+
+    <!-- Mensagens -->
+    <div id="messagesPage" class="page">
+        <h2 style="margin-bottom: 12px;">💬 Mensagens</h2>
+        
+        <div class="card">
+            <div class="user-row">
+                <div class="avatar">C</div>
+                <div><strong>Carol M.</strong><br>Última: "Vamos amanhã?"</div>
+            </div>
+            <div class="user-row">
+                <div class="avatar">G</div>
+                <div><strong>Grupo Tech&Café</strong><br>3 mensagens novas</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <span class="badge">💡 Mensagens do Grupo</span>
+            </div>
+            <div class="mensagem-bubble">🎤 "Se você pudesse jantar com qualquer artista, quem seria?"</div>
+            <div class="mensagem-bubble">📸 "Qual foi o melhor rolê que você fez esse mês?"</div>
+            <div class="mensagem-bubble">🎬 "Série ou filme: qual assistiria de novo?"</div>
+            <a href="newmensagens.html" class="em" class="btn">Enviar uma Mensagem</a>
+        </div>
+
+        <div class="card">
+           <strong>Ajuda Acadêmica</strong> - 5 membros online
+             <button><a href="ajuda-academica.html" class="btn">Entrar no chat</a></button>
+            <p>✍️ Chat ativo: com <strong>Rafael</strong> - 10 min atrás</p>
+            <p>👥 Grupo "Jogatina" - 3 pessoas online</p>
+        </div>
+    </div>
+
+    <!-- Agenda / Eventos -->
+    <div id="calendarPage" class="page">
+        <h2 style="margin-bottom: 12px;">📅 Agenda & Eventos</h2>
+        
+        <div class="card">
+            <div class="card-header">
+                <span class="badge">✨ Eventos sugeridos</span>
+            </div>
+            <p><strong>🎨 Oficina de Aquarela</strong> - Terça 19h (online)</p>
+            <p><strong>☕ Happy Hour Conecta+</strong> - Quinta 18h30</p>
+            <p><strong>📚 Troca de Livros</strong> - Sábado 10h</p>
+            
+             <button><a href="eventos.html" class="btn">Confirmar nesses Evento</a></button>
+            
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <span>✅ Meus eventos confirmados</span>
+            </div>
+            <p>🗓️ <strong>Grupo de Estudos JS</strong> - Amanhã 15h</p>
+            <p>🗓️ <strong>Café da Manhã Coletivo</strong> - 12/04 9h</p>
+        </div>
+
+        <div class="card">
+            <div class="flex-between">
+                <span>📅 Calendário de Atividades Sociais</span>
+                <button><a href="calendario.html" class="btn">Conectar</a></button>
+            </div>
+            <p style="font-size:12px; margin-top: 8px;">Sincronize seus eventos e não perca nenhum rolê.</p>
+        </div>
+    </div>
+
+    <!-- Barra de navegação inferior -->
+    <div class="tab-bar">
+        <button class="tab-item active" data-page="home">🏠<span>Início</span></button>
+        <button class="tab-item" data-page="explore">🔍<span>Explorar</span></button>
+        <button class="tab-item" data-page="groups">👥<span>Grupos</span></button>
+        <button class="tab-item" data-page="messages">💬<span>Mensagens</span></button>
+        <button class="tab-item" data-page="calendar">📅<span>Agenda</span></button>
+    </div>
+</div>
+
+<script>
+    // Controle de navegação entre páginas
+    const pages = {
+        home: document.getElementById('homePage'),
+        explore: document.getElementById('explorePage'),
+        groups: document.getElementById('groupsPage'),
+        messages: document.getElementById('messagesPage'),
+        calendar: document.getElementById('calendarPage')
+    };
+
+    const tabs = document.querySelectorAll('.tab-item');
+
+    function switchPage(pageId) {
+        // Esconde todas
+        Object.values(pages).forEach(page => {
+            page.classList.remove('active-page');
+        });
+        // Mostra a página selecionada
+        if(pages[pageId]) {
+            pages[pageId].classList.add('active-page');
+        }
+        // Atualiza estilo dos tabs
+        tabs.forEach(tab => {
+            const tabPage = tab.getAttribute('data-page');
+            if(tabPage === pageId) {
+                tab.classList.add('active');
+            } else {
+                tab.classList.remove('active');
+            }
+        });
+    }
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const pageId = tab.getAttribute('data-page');
+            if(pageId) switchPage(pageId);
+        });
+    });
+
+    // pequena função para simular clique em convites e interações
+    document.querySelectorAll('.btn-outline, .btn-primary').forEach(btn => {
+        if(!btn.closest('.tab-bar')) {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                if(btn.innerText.includes('Conectar') || btn.innerText.includes('Participar') || btn.innerText.includes('Quero ir')) {
+                    alert('✨ Funcionalidade simulada: conexão enviada!');
+                } else if(btn.innerText.includes('Entrar no chat')) {
+                    alert('💬 Abrindo conversa do grupo...');
+                } else {
+                    alert('🚀 Ação registrada (demo)!');
+                }
+            });
+        }
+    });
+
+    // Simular busca na explorar
+    const search = document.getElementById('searchInput');
+    if(search) {
+        search.addEventListener('input', (e) => {
+            console.log('Buscando: ', e.target.value);
+            // Mock: apenas feedback
+        });
+    }
+
+    console.log('App de interação social carregado ✅');
+</script>
+</body>
+</html>

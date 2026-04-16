@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Junta Aí · Meus Grupos & Amigos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(145deg, #032363 30%, #e6edf9 150%);
+      color: #1e293b;
+      min-height: 100vh;
+      padding: 20px 16px 80px;
+    }
+    .app-container { max-width: 500px; margin: 0 auto; }
+    .header-bar {
+      display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
+    }
+    .back-btn {
+      background: rgba(255,255,255,0.9); width: 44px; height: 44px;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      color: #032363; font-size: 1.3rem; text-decoration: none;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05); transition: 0.2s;
+    }
+    .back-btn:hover { background: white; transform: scale(0.96); }
+    h1 {
+      font-size: 1.8rem; font-weight: 700;
+      background: linear-gradient(135deg, #032363, #8b5cf6);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .card {
+      background: white; border-radius: 20px; padding: 16px; margin-bottom: 20px;
+      border: 2px solid #032363; box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .tab-switch {
+      display: flex; background: #f1f5f9; border-radius: 40px; padding: 4px; margin-bottom: 20px;
+    }
+    .tab-option {
+      flex: 1; text-align: center; padding: 10px; border-radius: 40px;
+      font-weight: 600; cursor: pointer; transition: 0.2s;
+    }
+    .tab-option.active { background: white; color: #032363; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .section-title {
+      font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+    }
+    .list-item {
+      display: flex; align-items: center; gap: 14px; padding: 16px 0;
+      border-bottom: 1px solid #eef2f6;
+    }
+    .avatar-small {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: linear-gradient(145deg, #a78bfa, #7c3aed);
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-weight: bold; font-size: 1.3rem; flex-shrink: 0;
+    }
+    .group-avatar { background: #cbd5e1; color: #1e293b; }
+    .item-info { flex: 1; }
+    .item-name { font-weight: 700; margin-bottom: 4px; }
+    .item-meta { font-size: 0.75rem; color: #64748b; }
+    .item-status {
+      font-size: 0.7rem; padding: 2px 8px; border-radius: 30px;
+      background: #e6f4ea; color: #2c6e2f; display: inline-block;
+    }
+    .action-buttons {
+      display: flex; gap: 6px;
+    }
+    .icon-btn {
+      background: #f1f5f9; border: none; width: 36px; height: 36px;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      color: #032363; cursor: pointer; transition: 0.2s;
+    }
+    .icon-btn:hover { background: #e2e8f0; }
+    .btn-outline-sm {
+      background: transparent; border: 1.5px solid #cbd5e1;
+      padding: 6px 12px; border-radius: 30px; font-size: 0.75rem;
+      font-weight: 600; cursor: pointer; color: #1e293b;
+    }
+    .toast-msg {
+      visibility: hidden; min-width: 200px; background: #1f3a7c;
+      color: white; text-align: center; border-radius: 40px; padding: 12px 20px;
+      position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+      font-size: 0.9rem; opacity: 0; transition: 0.2s; z-index: 1000;
+    }
+    .toast-msg.show { visibility: visible; opacity: 1; }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <div class="header-bar">
+    <a href="Juntaitest.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+    <h1><i class="fas fa-users"></i> Meus Grupos</h1>
+  </div>
+
+  <!-- Toggle Grupos / Amigos -->
+  <div class="tab-switch">
+    <div class="tab-option active" data-type="grupos"><i class="fas fa-users"></i> Grupos</div>
+    <div class="tab-option" data-type="amigos"><i class="fas fa-user-friends"></i> Amigos</div>
+  </div>
+
+  <!-- Conteúdo dinâmico -->
+  <div id="dynamicContent">
+    <!-- Será preenchido via JS -->
+  </div>
+</div>
+
+<div id="toastMsg" class="toast-msg">✨ Ação realizada!</div>
+
+<script>
+  (function(){
+    // Dados mockados
+    const meusGrupos = [
+      { id:1, nome:'Criativos Unificados', categoria:'Design', membros:12, status:'ativo', avatar:'🎨', notificacoes:3 },
+      { id:2, nome:'Clube do Livro', categoria:'Leitura', membros:8, status:'ativo', avatar:'📖', notificacoes:0 },
+      { id:3, nome:'Corrida Matinal', categoria:'Esportes', membros:5, status:'pausado', avatar:'🏃', notificacoes:1 },
+      { id:4, nome:'Tech & Café', categoria:'Tecnologia', membros:9, status:'ativo', avatar:'💻', notificacoes:5 },
+      { id:5, nome:'Jogatina', categoria:'Games', membros:15, status:'ativo', avatar:'🎮', notificacoes:2 },
+    ];
+
+    const meusAmigos = [
+      { id:101, nome:'Marina Lima', curso:'Design', status:'online', avatar:'M', ultimaVez:'agora' },
+      { id:102, nome:'Rafael Souza', curso:'Ciência da Computação', status:'offline', avatar:'R', ultimaVez:'há 2h' },
+      { id:103, nome:'Ana Clara', curso:'Engenharia', status:'online', avatar:'A', ultimaVez:'agora' },
+      { id:104, nome:'João Pedro', curso:'Análise de Sistemas', status:'offline', avatar:'J', ultimaVez:'há 1d' },
+      { id:105, nome:'Letícia Santos', curso:'Matemática', status:'online', avatar:'L', ultimaVez:'agora' },
+    ];
+
+    let activeTab = 'grupos';
+    const container = document.getElementById('dynamicContent');
+    const toast = document.getElementById('toastMsg');
+
+    function showToast(msg, duration=2000) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), duration);
+    }
+
+    function renderGrupos() {
+      let html = `<div class="card">
+        <div class="section-title"><i class="fas fa-users"></i> Grupos que participo</div>`;
+      
+      meusGrupos.forEach(g => {
+        html += `<div class="list-item">
+          <div class="avatar-small group-avatar">${g.avatar}</div>
+          <div class="item-info">
+            <div class="item-name">${g.nome} ${g.notificacoes > 0 ? `<span style="background:#ef4444; color:white; padding:2px 6px; border-radius:20px; font-size:0.7rem; margin-left:6px;">${g.notificacoes}</span>` : ''}</div>
+            <div class="item-meta">${g.categoria} · ${g.membros} membros</div>
+            <div class="item-meta"><span class="item-status" style="background:${g.status==='ativo'?'#e6f4ea':'#f1f5f9'}; color:${g.status==='ativo'?'#2c6e2f':'#64748b'};">${g.status === 'ativo' ? '🟢 Ativo' : '⏸️ Pausado'}</span></div>
+          </div>
+          <div class="action-buttons">
+            <button class="icon-btn chat-btn" data-id="${g.id}" data-nome="${g.nome}"><i class="fas fa-comment"></i></button>
+            <button class="icon-btn leave-btn" data-id="${g.id}" data-nome="${g.nome}"><i class="fas fa-sign-out-alt"></i></button>
+          </div>
+        </div>`;
+      });
+
+      html += `</div>
+      <div class="card">
+        <div class="section-title"><i class="fas fa-search"></i> Descobrir novos grupos</div>
+        <p style="margin-bottom:12px;">Encontre grupos baseados nos seus interesses</p>
+        <a href="grupos-estudo.html" style="text-decoration:none;"><button class="btn-outline-sm" style="width:100%;">Explorar grupos</button></a>
+      </div>`;
+
+      container.innerHTML = html;
+
+      // Event listeners
+      document.querySelectorAll('.chat-btn').forEach(btn => {
+        btn.addEventListener('click', () => showToast(`💬 Abrindo chat do grupo "${btn.dataset.nome}"`));
+      });
+      document.querySelectorAll('.leave-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const nome = this.dataset.nome;
+          if (confirm(`Deseja sair do grupo "${nome}"?`)) {
+            showToast(`👋 Você saiu do grupo "${nome}"`);
+            this.closest('.list-item').style.opacity = '0.5';
+            setTimeout(() => this.closest('.list-item').remove(), 300);
+          }
+        });
+      });
+    }
+
+    function renderAmigos() {
+      let html = `<div class="card">
+        <div class="section-title"><i class="fas fa-user-friends"></i> Meus amigos (${meusAmigos.length})</div>`;
+
+      meusAmigos.forEach(a => {
+        html += `<div class="list-item">
+          <div class="avatar-small">${a.avatar}</div>
+          <div class="item-info">
+            <div class="item-name">${a.nome}</div>
+            <div class="item-meta">${a.curso}</div>
+            <div class="item-meta">${a.status === 'online' ? '🟢 Online' : '⚫ Offline'} · ${a.ultimaVez}</div>
+          </div>
+          <div class="action-buttons">
+            <button class="icon-btn msg-btn" data-nome="${a.nome}"><i class="fas fa-comment"></i></button>
+            <button class="icon-btn more-btn" data-nome="${a.nome}"><i class="fas fa-ellipsis-v"></i></button>
+          </div>
+        </div>`;
+      });
+
+      html += `</div>
+      <div class="card">
+        <div class="section-title"><i class="fas fa-user-plus"></i> Adicionar amigos</div>
+        <p style="margin-bottom:12px;">Conecte-se com mais pessoas</p>
+        <a href="conectar-estudantes.html" style="text-decoration:none;"><button class="btn-outline-sm" style="width:100%;">Encontrar amigos</button></a>
+      </div>`;
+
+      container.innerHTML = html;
+
+      document.querySelectorAll('.msg-btn').forEach(btn => {
+        btn.addEventListener('click', () => showToast(`💬 Abrindo chat com ${btn.dataset.nome}`));
+      });
+      document.querySelectorAll('.more-btn').forEach(btn => {
+        btn.addEventListener('click', () => showToast(`⚙️ Opções para ${btn.dataset.nome}`));
+      });
+    }
+
+    function setupTabs() {
+      const tabs = document.querySelectorAll('.tab-option');
+      const headerTitle = document.querySelector('h1');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          activeTab = tab.dataset.type;
+          if (activeTab === 'grupos') {
+            headerTitle.innerHTML = '<i class="fas fa-users"></i> Meus Grupos';
+            renderGrupos();
+          } else {
+            headerTitle.innerHTML = '<i class="fas fa-user-friends"></i> Meus Amigos';
+            renderAmigos();
+          }
+        });
+      });
+    }
+
+    function init() {
+      setupTabs();
+      renderGrupos();
+    }
+    init();
+  })();
+</script>
+</body>
+</html>

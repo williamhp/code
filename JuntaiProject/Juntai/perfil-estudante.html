@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Junta Aí · Meu Perfil</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(145deg, #032363 30%, #e6edf9 150%);
+      color: #1e293b;
+      min-height: 100vh;
+      padding: 20px 16px 80px;
+    }
+    .app-container { max-width: 500px; margin: 0 auto; }
+    .header-bar {
+      display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
+    }
+    .back-btn {
+      background: rgba(255,255,255,0.9); width: 44px; height: 44px;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      color: #032363; font-size: 1.3rem; text-decoration: none;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+    h1 {
+      font-size: 1.8rem; font-weight: 700;
+      background: linear-gradient(135deg, #032363, #8b5cf6);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .card {
+      background: white; border-radius: 24px; padding: 20px; margin-bottom: 20px;
+      border: 2px solid #032363; box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    }
+    .profile-header {
+      display: flex; align-items: center; gap: 20px; margin-bottom: 20px;
+    }
+    .avatar-large {
+      width: 90px; height: 90px; border-radius: 50%;
+      background: linear-gradient(145deg, #a78bfa, #7c3aed);
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-weight: 700; font-size: 2.8rem;
+    }
+    .profile-stats {
+      display: flex; gap: 16px;
+    }
+    .stat-item {
+      text-align: center;
+    }
+    .stat-number {
+      font-weight: 800; font-size: 1.4rem; color: #032363;
+    }
+    .stat-label {
+      font-size: 0.7rem; color: #64748b;
+    }
+    .edit-btn {
+      background: #ede9fe; border: none; padding: 8px 16px;
+      border-radius: 30px; font-weight: 600; color: #6d28d9;
+      cursor: pointer; margin-left: auto;
+    }
+    .info-row {
+      display: flex; align-items: center; gap: 12px; margin: 16px 0;
+    }
+    .tag-list {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;
+    }
+    .badge-achievement {
+      background: #fef9c3; color: #854d0e; padding: 4px 10px;
+      border-radius: 30px; font-size: 0.75rem; font-weight: 600;
+    }
+    .btn-primary {
+      background: #032363; color: white; border: none;
+      padding: 14px 20px; border-radius: 40px; font-weight: 700;
+      cursor: pointer; width: 100%; font-size: 1rem;
+    }
+    .toast-msg {
+      visibility: hidden; min-width: 200px; background: #1f3a7c;
+      color: white; text-align: center; border-radius: 40px;
+      padding: 12px 20px; position: fixed; bottom: 30px; left: 50%;
+      transform: translateX(-50%); font-size: 0.9rem; opacity: 0;
+      transition: 0.2s; z-index: 1000;
+    }
+    .toast-msg.show { visibility: visible; opacity: 1; }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <div class="header-bar">
+    <a href="Juntaitest.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+    <h1><i class="far fa-user-circle"></i> Perfil</h1>
+  </div>
+
+  <!-- Card principal -->
+  <div class="card">
+    <div class="profile-header">
+      <div class="avatar-large">V</div>
+      <div style="flex:1;">
+        <h2 style="font-size:1.5rem; margin-bottom:4px;">Você</h2>
+        <p style="color:#475569;"><i class="fas fa-graduation-cap"></i> Ciência da Computação · 4º semestre</p>
+      </div>
+      <button class="edit-btn" id="editProfileBtn"><i class="fas fa-pen"></i> Editar</button>
+    </div>
+    <div class="profile-stats">
+      <div class="stat-item"><span class="stat-number">12</span><div class="stat-label">Conexões</div></div>
+      <div class="stat-item"><span class="stat-number">5</span><div class="stat-label">Grupos</div></div>
+      <div class="stat-item"><span class="stat-number">8</span><div class="stat-label">Eventos</div></div>
+    </div>
+  </div>
+
+  <!-- Informações pessoais -->
+  <div class="card">
+    <h3 style="margin-bottom:16px;"><i class="fas fa-info-circle"></i> Sobre mim</h3>
+    <div class="info-row"><i class="fas fa-map-pin"></i> São Paulo, SP</div>
+    <div class="info-row"><i class="fas fa-book-open"></i> Matérias favoritas: Algoritmos, Banco de Dados</div>
+    <div class="info-row"><i class="fas fa-clock"></i> Disponível: Tarde e Noite</div>
+    <div><strong>Interesses:</strong>
+      <div class="tag-list">
+        <span class="tag">💻 Programação</span>
+        <span class="tag">☕ Café</span>
+        <span class="tag">📚 Leitura</span>
+        <span class="tag">🎮 Games</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Conquistas / Badges -->
+  <div class="card">
+    <h3 style="margin-bottom:16px;"><i class="fas fa-trophy"></i> Conquistas</h3>
+    <div class="tag-list">
+      <span class="badge-achievement"><i class="fas fa-fire"></i> Participativo</span>
+      <span class="badge-achievement"><i class="fas fa-handshake"></i> Conector Nato</span>
+      <span class="badge-achievement"><i class="fas fa-calendar-check"></i> 5 eventos confirmados</span>
+    </div>
+    <p style="margin-top:16px; font-size:0.9rem;">🌟 Complete mais 2 eventos para desbloquear "Socialite"</p>
+  </div>
+
+  <!-- Conexões recentes -->
+  <div class="card">
+    <h3 style="margin-bottom:16px;"><i class="fas fa-user-friends"></i> Conexões recentes</h3>
+    <div class="user-row" style="display:flex; gap:12px; margin-bottom:12px;">
+      <div class="avatar" style="width:40px; height:40px; font-size:16px;">A</div>
+      <div><strong>Ana Clara</strong><br>Engenharia</div>
+    </div>
+    <div class="user-row" style="display:flex; gap:12px;">
+      <div class="avatar" style="width:40px; height:40px; font-size:16px;">R</div>
+      <div><strong>Rafael Oliveira</strong><br>Matemática</div>
+    </div>
+  </div>
+</div>
+
+<div id="toastMsg" class="toast-msg">✨ Perfil atualizado (simulação)</div>
+
+<script>
+  const toast = document.getElementById('toastMsg');
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2000);
+  }
+  document.getElementById('editProfileBtn').addEventListener('click', () => {
+    showToast('✏️ Modo edição ativado (demonstração)');
+  });
+  // Simular clique nas tags
+  document.querySelectorAll('.tag, .badge-achievement').forEach(el => {
+    el.addEventListener('click', () => showToast('🔍 Interesse selecionado'));
+  });
+</script>
+</body>
+</html>

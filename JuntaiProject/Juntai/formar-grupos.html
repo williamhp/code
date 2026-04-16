@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Junta Aí · Grupos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(145deg, #032363 30%, #e6edf9 150%);
+      color: #1e293b;
+      min-height: 100vh;
+      padding: 20px 16px 80px;
+    }
+    .app-container {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .header-bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .back-btn {
+      background: rgba(255,255,255,0.9);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #032363;
+      font-size: 1.3rem;
+      text-decoration: none;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #032363, #8b5cf6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .card {
+      background: white;
+      border-radius: 24px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 2px solid #032363;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    }
+    .section-title {
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .input-group {
+      margin-bottom: 16px;
+    }
+    .input-group label {
+      font-weight: 500;
+      font-size: 0.9rem;
+      display: block;
+      margin-bottom: 6px;
+    }
+    .input-group input, .input-group select, .input-group textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 20px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+    }
+    .btn-primary {
+      background: #032363;
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 40px;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      font-size: 1rem;
+    }
+    .group-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid #eef2f6;
+    }
+    .group-icon {
+      width: 48px;
+      height: 48px;
+      background: #e0e7ff;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #032363;
+      font-size: 1.4rem;
+    }
+    .group-info { flex: 1; }
+    .group-name { font-weight: 700; margin-bottom: 4px; }
+    .group-meta { font-size: 0.75rem; color: #64748b; }
+    .join-btn {
+      background: transparent;
+      border: 1.5px solid #032363;
+      color: #032363;
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+    .toast-msg {
+      visibility: hidden;
+      min-width: 200px;
+      background: #1f3a7c;
+      color: white;
+      text-align: center;
+      border-radius: 40px;
+      padding: 12px 20px;
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.9rem;
+      opacity: 0;
+      transition: 0.2s;
+      z-index: 1000;
+    }
+    .toast-msg.show { visibility: visible; opacity: 1; }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <div class="header-bar">
+    <a href="Juntaitest.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+    <h1><i class="fas fa-users"></i> Grupos</h1>
+  </div>
+
+  <!-- Formulário de criação -->
+  <div class="card">
+    <div class="section-title"><i class="fas fa-plus-circle"></i> Criar novo grupo</div>
+    <div class="input-group">
+      <label>Nome do grupo</label>
+      <input type="text" id="groupName" placeholder="Ex: Estudos de Cálculo">
+    </div>
+    <div class="input-group">
+      <label>Categoria</label>
+      <select id="groupCategory">
+        <option>📚 Estudos</option>
+        <option>⚽ Esportes</option>
+        <option>🎮 Jogos</option>
+        <option>☕ Social</option>
+      </select>
+    </div>
+    <div class="input-group">
+      <label>Descrição rápida</label>
+      <textarea id="groupDesc" rows="2" placeholder="Do que se trata o grupo?"></textarea>
+    </div>
+    <button class="btn-primary" id="createGroupBtn"><i class="fas fa-rocket"></i> Criar grupo</button>
+  </div>
+
+  <!-- Grupos para explorar (âncora #explorar) -->
+  <div class="card" id="explorar">
+    <div class="section-title"><i class="fas fa-compass"></i> Grupos para você</div>
+    <div id="groupsListContainer">
+      <!-- preenchido via JS -->
+    </div>
+  </div>
+</div>
+
+<div id="toastMsg" class="toast-msg">✨ Grupo criado com sucesso!</div>
+
+<script>
+  const gruposDisponiveis = [
+    { nome: 'Calouros 2026', categoria: 'Social', membros: 48, icone: '🎓' },
+    { nome: 'Programadores Iniciantes', categoria: 'Estudos', membros: 32, icone: '💻' },
+    { nome: 'Futebol Society', categoria: 'Esportes', membros: 21, icone: '⚽' },
+    { nome: 'Clube do Livro', categoria: 'Social', membros: 15, icone: '📖' }
+  ];
+
+  const container = document.getElementById('groupsListContainer');
+  const toast = document.getElementById('toastMsg');
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2000);
+  }
+
+  function renderGroups() {
+    let html = '';
+    gruposDisponiveis.forEach(g => {
+      html += `
+        <div class="group-item">
+          <div class="group-icon">${g.icone}</div>
+          <div class="group-info">
+            <div class="group-name">${g.nome}</div>
+            <div class="group-meta">${g.categoria} · ${g.membros} membros</div>
+          </div>
+          <button class="join-btn" data-grupo="${g.nome}">Participar</button>
+        </div>
+      `;
+    });
+    container.innerHTML = html;
+
+    document.querySelectorAll('.join-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const nome = btn.dataset.grupo;
+        showToast(`🎉 Você entrou no grupo "${nome}"!`);
+        btn.textContent = 'Participando ✓';
+        btn.disabled = true;
+        btn.style.opacity = '0.7';
+      });
+    });
+  }
+
+  document.getElementById('createGroupBtn').addEventListener('click', (e) => {
+    e.preventDefault();
+    const nome = document.getElementById('groupName').value.trim();
+    if (!nome) {
+      alert('Por favor, dê um nome ao grupo.');
+      return;
+    }
+    showToast(`🚀 Grupo "${nome}" criado! Compartilhe com os amigos.`);
+    document.getElementById('groupName').value = '';
+    document.getElementById('groupDesc').value = '';
+  });
+
+  renderGroups();
+</script>
+</body>
+</html>

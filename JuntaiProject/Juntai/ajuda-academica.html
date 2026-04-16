@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Junta Aí · Ajuda Acadêmica</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(145deg, #032363 30%, #e6edf9 150%);
+      color: #1e293b;
+      min-height: 100vh;
+      padding: 20px 16px 80px;
+    }
+    .app-container { max-width: 500px; margin: 0 auto; }
+    .header-bar {
+      display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
+    }
+    .back-btn {
+      background: rgba(255,255,255,0.9); width: 44px; height: 44px;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      color: #032363; font-size: 1.3rem; text-decoration: none;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+    h1 {
+      font-size: 1.8rem; font-weight: 700;
+      background: linear-gradient(135deg, #032363, #8b5cf6);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .card {
+      background: white; border-radius: 24px; padding: 20px; margin-bottom: 20px;
+      border: 2px solid #032363; box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    }
+    .filter-row {
+      display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;
+    }
+    .filter-chip {
+      background: #f1f5f9; padding: 6px 14px; border-radius: 30px;
+      font-size: 0.8rem; cursor: pointer;
+    }
+    .filter-chip.active { background: #032363; color: white; }
+    .help-card {
+      display: flex; align-items: center; gap: 14px; padding: 16px 0;
+      border-bottom: 1px solid #eef2f6;
+    }
+    .help-avatar {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: #cbd5e1; display: flex; align-items: center; justify-content: center;
+      font-weight: bold; color: #1e293b;
+    }
+    .help-info { flex: 1; }
+    .help-name { font-weight: 700; }
+    .help-subject { font-size: 0.8rem; color: #475569; }
+    .help-type {
+      font-size: 0.7rem; padding: 2px 8px; border-radius: 30px;
+      background: #fef9c3; display: inline-block;
+    }
+    .btn-small {
+      background: #032363; color: white; border: none; padding: 8px 16px;
+      border-radius: 30px; font-weight: 600; cursor: pointer;
+    }
+    .btn-outline {
+      background: transparent; border: 1.5px solid #cbd5e1;
+      padding: 8px 14px; border-radius: 40px; cursor: pointer;
+    }
+    .toast-msg {
+      visibility: hidden; min-width: 200px; background: #1f3a7c;
+      color: white; text-align: center; border-radius: 40px;
+      padding: 12px 20px; position: fixed; bottom: 30px; left: 50%;
+      transform: translateX(-50%); font-size: 0.9rem; opacity: 0;
+      transition: 0.2s; z-index: 1000;
+    }
+    .toast-msg.show { visibility: visible; opacity: 1; }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <div class="header-bar">
+    <a href="Juntaitest.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+    <h1><i class="fas fa-chalkboard-user"></i> Ajuda Acadêmica</h1>
+  </div>
+
+  <div class="card">
+    <div style="display:flex; gap:12px; margin-bottom:20px;">
+      <button class="btn-primary" style="flex:1;" id="offerHelpBtn"><i class="fas fa-hand-holding-heart"></i> Oferecer ajuda</button>
+      <button class="btn-outline" style="flex:1;" id="requestHelpBtn"><i class="fas fa-question"></i> Pedir ajuda</button>
+    </div>
+
+    <div class="filter-row">
+      <span class="filter-chip active" data-filter="all">Todas</span>
+      <span class="filter-chip" data-filter="Cálculo">📐 Cálculo</span>
+      <span class="filter-chip" data-filter="Programação">💻 Programação</span>
+      <span class="filter-chip" data-filter="Física">⚛️ Física</span>
+      <span class="filter-chip" data-filter="Banco de Dados">🗄️ BD</span>
+    </div>
+
+    <div id="helpListContainer">
+      <!-- preenchido via JS -->
+    </div>
+  </div>
+</div>
+
+<div id="toastMsg" class="toast-msg">📚 Ação registrada</div>
+
+<script>
+  const helpOffers = [
+    { nome: 'João Pedro', materia: 'Cálculo II', tipo: 'oferece', desc: 'Monitor voluntário', avatar: 'J' },
+    { nome: 'Ana Clara', materia: 'Programação Funcional', tipo: 'oferece', desc: 'Ajuda com Haskell', avatar: 'A' },
+    { nome: 'Letícia Santos', materia: 'Banco de Dados', tipo: 'pede', desc: 'Preciso de ajuda com normalização', avatar: 'L' },
+    { nome: 'Rafael Oliveira', materia: 'Cálculo Numérico', tipo: 'oferece', desc: 'Resolução de listas', avatar: 'R' },
+    { nome: 'Camila Rocha', materia: 'Estrutura de Dados', tipo: 'pede', desc: 'Dúvidas em árvores', avatar: 'C' }
+  ];
+
+  let filtroAtual = 'all';
+  const container = document.getElementById('helpListContainer');
+  const toast = document.getElementById('toastMsg');
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2000);
+  }
+
+  function renderList() {
+    const filtrados = helpOffers.filter(item => {
+      if (filtroAtual === 'all') return true;
+      return item.materia.includes(filtroAtual);
+    });
+    let html = '';
+    filtrados.forEach(item => {
+      const tipoLabel = item.tipo === 'oferece' ? '🟢 Oferece ajuda' : '🟡 Pede ajuda';
+      html += `
+        <div class="help-card">
+          <div class="help-avatar">${item.avatar}</div>
+          <div class="help-info">
+            <div class="help-name">${item.nome} <span class="help-type">${tipoLabel}</span></div>
+            <div class="help-subject">${item.materia} · ${item.desc}</div>
+          </div>
+          <button class="btn-small contact-btn" data-nome="${item.nome}">Contatar</button>
+        </div>
+      `;
+    });
+    container.innerHTML = html || '<p style="padding:20px; text-align:center;">Nenhum resultado.</p>';
+    document.querySelectorAll('.contact-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        showToast(`💬 Solicitando contato com ${btn.dataset.nome}...`);
+      });
+    });
+  }
+
+  document.querySelectorAll('.filter-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      filtroAtual = chip.dataset.filter;
+      renderList();
+    });
+  });
+
+  document.getElementById('offerHelpBtn').addEventListener('click', () => {
+    showToast('📢 Você está oferecendo ajuda! Preencha os detalhes.');
+  });
+  document.getElementById('requestHelpBtn').addEventListener('click', () => {
+    showToast('❓ Descreva sua dúvida para encontrar um mentor.');
+  });
+
+  renderList();
+</script>
+</body>
+</html>

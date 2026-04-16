@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>conecta+ Juntai | Comunidade de Estudos</title>
+  <!-- Google Fonts + Font Awesome Icons (clean style) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f1f5f9;
+      font-family: 'Inter', sans-serif;
+      color: #0f172a;
+      padding: 24px 16px 48px 16px;
+    }
+
+    /* main container – card style */
+    .app-container {
+      max-width: 580px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 2rem;
+      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      padding: 0 0 24px 0;
+    }
+
+    /* header */
+    .header {
+      padding: 28px 24px 12px 24px;
+      border-bottom: 1px solid #eef2ff;
+    }
+
+    .header h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #1e2b6e, #2b4c9e);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.3px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header h1 i {
+      background: none;
+      -webkit-background-clip: unset;
+      background-clip: unset;
+      color: #2b4c9e;
+      font-size: 1.7rem;
+    }
+
+    .header p {
+      color: #475569;
+      font-size: 0.85rem;
+      margin-top: 6px;
+      font-weight: 500;
+    }
+
+    /* cards de grupos (estilo "Grupo de estudos") */
+    .section {
+      padding: 20px 24px 8px 24px;
+    }
+
+    .section-title {
+      font-weight: 600;
+      font-size: 1.25rem;
+      color: #0f172a;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title i {
+      color: #3b71ca;
+      font-size: 1.2rem;
+    }
+
+    .group-card {
+      background: #f8fafc;
+      border-radius: 1.5rem;
+      padding: 14px 18px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+      border: 1px solid #e2e8f0;
+    }
+
+    .group-info h3 {
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+    }
+
+    .group-meta {
+      display: flex;
+      gap: 16px;
+      font-size: 0.75rem;
+      color: #4b5563;
+    }
+
+    .group-meta span i {
+      margin-right: 4px;
+      font-size: 0.7rem;
+      color: #5b7cbd;
+    }
+
+    .btn-entrar {
+      background: white;
+      border: 1px solid #cbd5e1;
+      border-radius: 40px;
+      padding: 6px 18px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: #1e3a8a;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    }
+
+    .btn-entrar:hover {
+      background: #eef2ff;
+      border-color: #a0c0f0;
+    }
+
+    /* parceiro de estudos cards */
+    .partner-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .partner-card {
+      background: #ffffff;
+      border-radius: 1.25rem;
+      padding: 14px 16px;
+      border: 1px solid #e2edff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: 0.2s;
+    }
+
+    .partner-avatar {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(145deg, #d9e6ff, #c0d4fc);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.3rem;
+      color: #1f3a7c;
+      margin-right: 14px;
+    }
+
+    .partner-details {
+      flex: 1;
+    }
+
+    .partner-name {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .partner-match {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #2c6e2f;
+      background: #e6f4ea;
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 30px;
+      margin-left: 8px;
+    }
+
+    .partner-course {
+      font-size: 0.75rem;
+      color: #334155;
+      margin-top: 4px;
+    }
+
+    .btn-estudar {
+      background: #eef2ff;
+      border: none;
+      border-radius: 40px;
+      padding: 8px 20px;
+      font-weight: 600;
+      font-size: 0.75rem;
+      color: #1e40af;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+
+    .btn-estudar:hover {
+      background: #dfe8ff;
+    }
+
+    /* convites rápidos (primeira versão + segunda tela integrada) */
+    .invite-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .invite-item {
+      background: #fefce8;
+      border-left: 6px solid #f5b042;
+      border-radius: 1rem;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      background: #fffaf0;
+      transition: all 0.1s;
+    }
+
+    .invite-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .invite-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .invite-vagas {
+      font-size: 0.7rem;
+      background: #ffe6c7;
+      padding: 2px 8px;
+      border-radius: 30px;
+      display: inline-block;
+      width: fit-content;
+      color: #b45f1b;
+    }
+
+    .btn-quero-ir {
+      background: none;
+      border: 1px solid #fed7aa;
+      background-color: #ffffff;
+      border-radius: 40px;
+      padding: 6px 16px;
+      font-weight: 600;
+      font-size: 0.75rem;
+      color: #b45309;
+      cursor: pointer;
+      transition: 0.1s;
+    }
+
+    .btn-quero-ir:hover {
+      background: #fde68a;
+      border-color: #f5b042;
+    }
+
+    /* Mural de Confissões */
+    .confessions-section {
+      background: #fef9f5;
+      margin-top: 16px;
+      border-radius: 1.5rem;
+      margin: 12px 24px 8px 24px;
+      padding: 10px 0 8px 0;
+      border: 1px solid #ffe4cf;
+    }
+
+    .conf-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 8px 16px 4px 16px;
+      border-bottom: 1px dashed #ffd9be;
+    }
+
+    .conf-header h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #5c3e1f;
+    }
+
+    .escrever-link {
+      font-size: 0.75rem;
+      color: #c45f1a;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .confession-card {
+      padding: 14px 16px;
+      border-bottom: 1px solid #ffe1ca;
+    }
+
+    .confession-text {
+      font-size: 0.85rem;
+      line-height: 1.35;
+      color: #2d2a24;
+      margin-bottom: 10px;
+    }
+
+    .confession-actions {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .reaction {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      background: #fff4ea;
+      padding: 4px 10px;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: 0.1s;
+      color: #8b5a2b;
+    }
+
+    .reaction i {
+      font-size: 0.8rem;
+    }
+
+    .reaction span {
+      font-weight: 600;
+    }
+
+    /* dividers */
+    .divider-light {
+      height: 1px;
+      background: #eef2ff;
+      margin: 8px 24px 0px 24px;
+    }
+
+    /* responsividade */
+    @media (max-width: 480px) {
+      .app-container {
+        border-radius: 1.5rem;
+      }
+      .partner-card {
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .btn-estudar {
+        padding: 6px 14px;
+      }
+    }
+    .fa-heart, .fa-heart-broken {
+      pointer-events: none;
+    }
+    button {
+      font-family: inherit;
+    }
+    .toast-msg {
+      visibility: hidden;
+      min-width: 180px;
+      background-color: #1f3a7c;
+      color: #fff;
+      text-align: center;
+      border-radius: 40px;
+      padding: 8px 16px;
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.8rem;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+    }
+    .toast-msg.show {
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <div class="header">
+    <h1><i class="fas fa-users"></i> conecta+ Juntai</h1>
+    <p>Onde conexões viram amizades e estudos rendem mais</p>
+  </div>
+
+  <!-- GRUPOS DE ESTUDO / SALA DE GAMES etc (primeira foto) -->
+  <div class="section">
+    <div class="section-title"><i class="fas fa-rocket"></i> Grupos ativos</div>
+    <div class="group-card">
+      <div class="group-info">
+        <h3>📘 Grupo de estudos React</h3>
+        <div class="group-meta"><span><i class="fas fa-user-friends"></i> 3 pessoas</span> <span><i class="fas fa-circle" style="color:#10b981; font-size: 0.5rem;"></i> online</span></div>
+      </div>
+      <button class="btn-entrar" data-group="React">Entrar →</button>
+    </div>
+    <div class="group-card">
+      <div class="group-info">
+        <h3>☕ Café no Campus</h3>
+        <div class="group-meta"><span><i class="fas fa-user-friends"></i> 5 pessoas</span> <span><i class="far fa-clock"></i> 2 min atrás</span></div>
+      </div>
+      <button class="btn-entrar" data-group="Café no Campus">Entrar →</button>
+    </div>
+    <div class="group-card">
+      <div class="group-info">
+        <h3>🎮 Sala de Games</h3>
+        <div class="group-meta"><span><i class="fas fa-user-friends"></i> 4 pessoas</span> <span><i class="fas fa-circle" style="color:#10b981; font-size: 0.5rem;"></i> online</span></div>
+      </div>
+      <button class="btn-entrar" data-group="Sala de Games">Entrar →</button>
+    </div>
+  </div>
+
+  <!-- Parceiro de Estudos -->
+  <div class="section">
+    <div class="section-title"><i class="fas fa-handshake"></i> Parceiro de Estudos</div>
+    <div class="partner-grid">
+      <div class="partner-card">
+        <div style="display: flex; align-items: center;">
+          <div class="partner-avatar">AC</div>
+          <div class="partner-details">
+            <div><span class="partner-name">Ana Clara</span> <span class="partner-match">92%</span></div>
+            <div class="partner-course">📐 Cálculo II · Seg/Qua 14h</div>
+          </div>
+        </div>
+        <button class="btn-estudar" data-partner="Ana Clara">Estudar</button>
+      </div>
+      <div class="partner-card">
+        <div style="display: flex; align-items: center;">
+          <div class="partner-avatar">JP</div>
+          <div class="partner-details">
+            <div><span class="partner-name">João Pedro</span> <span class="partner-match">87%</span></div>
+            <div class="partner-course">🗄️ Banco de Dados · Ter/Qui 10h</div>
+          </div>
+        </div>
+        <button class="btn-estudar" data-partner="João Pedro">Estudar</button>
+      </div>
+      <div class="partner-card">
+        <div style="display: flex; align-items: center;">
+          <div class="partner-avatar">LC</div>
+          <div class="partner-details">
+            <div><span class="partner-name">Letícia</span> <span class="partner-match">85%</span></div>
+            <div class="partner-course">💻 Algoritmos · Seg/Qua 16h</div>
+          </div>
+        </div>
+        <button class="btn-estudar" data-partner="Letícia">Estudar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Convites rápidos (mesclando as duas imagens: Jogo de tabuleiro, Biblioteca, Corrida, Pizza etc) -->
+  <div class="section">
+    <div class="section-title"><i class="fas fa-bolt"></i> Convites rápidos</div>
+    <div class="invite-grid">
+      <div class="invite-item">
+        <div class="invite-info">
+          <div class="invite-title">🐦 Jogo de tabuleiro hoje 19h</div>
+          <div class="invite-vagas"><i class="fas fa-chair"></i> 3 vagas</div>
+        </div>
+        <button class="btn-quero-ir" data-invite="Jogo de tabuleiro">Quero ir →</button>
+      </div>
+      <div class="invite-item">
+        <div class="invite-info">
+          <div class="invite-title">📚 Biblioteca - estudo em dupla</div>
+          <div class="invite-vagas"><i class="fas fa-chair"></i> 1 vaga</div>
+        </div>
+        <button class="btn-quero-ir" data-invite="Biblioteca estudo dupla">Quero ir →</button>
+      </div>
+      <div class="invite-item">
+        <div class="invite-info">
+          <div class="invite-title">🏃 Corrida no parque - Sábado 8h</div>
+          <div class="invite-vagas"><i class="fas fa-chair"></i> 5 vagas</div>
+        </div>
+        <button class="btn-quero-ir" data-invite="Corrida no parque">Quero ir →</button>
+      </div>
+      <div class="invite-item">
+        <div class="invite-info">
+          <div class="invite-title">🍕 Pizza & conversa - Sexta 20h</div>
+          <div class="invite-vagas"><i class="fas fa-chair"></i> 4 vagas</div>
+        </div>
+        <button class="btn-quero-ir" data-invite="Pizza & conversa">Quero ir →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mural de Confissões (exatamente igual aos dados da segunda foto) -->
+  <div class="confessions-section">
+    <div class="conf-header">
+      <h3><i class="fas fa-feather-alt"></i> Mural de Confissões</h3>
+      <div class="escrever-link" id="escreverConfissaoBtn">+ Escrever</div>
+    </div>
+    <div id="confessionsList">
+      <!-- confissões fixas (conteúdo das imagens) -->
+      <div class="confession-card" data-conf-id="0">
+        <div class="confession-text">Hoje fui tomar café sozinho e alguém puxou assunto. Fez meu dia! 😊</div>
+        <div class="confession-actions">
+          <div class="reaction like-reaction" data-type="like" data-id="0"><i class="far fa-heart"></i> <span class="like-count">12</span></div>
+          <div class="reaction heartbreak-reaction" data-type="heartbreak" data-id="0"><i class="fas fa-heart-broken"></i> <span class="heartbreak-count">3</span></div>
+        </div>
+      </div>
+      <div class="confession-card" data-conf-id="1">
+        <div class="confession-text">Tenho medo de falar em público mas quero tentar o grupo de debate 😅</div>
+        <div class="confession-actions">
+          <div class="reaction like-reaction" data-type="like" data-id="1"><i class="far fa-heart"></i> <span class="like-count">24</span></div>
+          <div class="reaction heartbreak-reaction" data-type="heartbreak" data-id="1"><i class="fas fa-heart-broken"></i> <span class="heartbreak-count">7</span></div>
+        </div>
+      </div>
+      <div class="confession-card" data-conf-id="2">
+        <div class="confession-text">Obrigado a quem criou o grupo de corrida matinal. Fiz amigos incríveis! 🥰</div>
+        <div class="confession-actions">
+          <div class="reaction like-reaction" data-type="like" data-id="2"><i class="far fa-heart"></i> <span class="like-count">31</span></div>
+          <div class="reaction heartbreak-reaction" data-type="heartbreak" data-id="2"><i class="fas fa-heart-broken"></i> <span class="heartbreak-count">5</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider-light"></div>
+  <div style="padding: 16px 24px 12px; text-align: center; font-size: 0.7rem; color: #6c757d;">
+    <i class="fas fa-globe"></i> conecta+ · faça parte da sua tribo
+  </div>
+</div>
+<div id="toastMsg" class="toast-msg">✨ Ação registrada!</div>
+
+<script>
+  // função para mostrar notificações suaves
+  function showToast(message) {
+    const toast = document.getElementById('toastMsg');
+    toast.textContent = message || '✨ Ação registrada!';
+    toast.classList.add('show');
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, 2000);
+  }
+
+  // botoes de grupos (entrar)
+  const enterBtns = document.querySelectorAll('.btn-entrar');
+  enterBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const groupName = btn.getAttribute('data-group') || 'grupo';
+      showToast(`✅ Você entrou no grupo "${groupName}"!`);
+      btn.textContent = '✔️ Entrou';
+      btn.disabled = true;
+      btn.style.opacity = '0.7';
+    });
+  });
+
+  // botoes de estudar (parceiro)
+  const estudarBtns = document.querySelectorAll('.btn-estudar');
+  estudarBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const partner = btn.getAttribute('data-partner') || 'parceiro(a)';
+      showToast(`📖 Convite enviado para ${partner} estudar juntos!`);
+      btn.textContent = 'Solicitado';
+      btn.disabled = true;
+    });
+  });
+
+  // convites rápidos (quero ir)
+  const inviteBtns = document.querySelectorAll('.btn-quero-ir');
+  inviteBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const inviteName = btn.getAttribute('data-invite') || 'evento';
+      showToast(`🎉 Você manifestou interesse em "${inviteName}"!`);
+      btn.textContent = '✅ Confirmado';
+      btn.disabled = true;
+      // pequeno charme: reduz vagas no elemento? opcional
+      const parentDiv = btn.closest('.invite-item');
+      if (parentDiv) {
+        const vagasSpan = parentDiv.querySelector('.invite-vagas');
+        if (vagasSpan && !vagasSpan.innerText.includes('esgotado')) {
+          let vagasText = vagasSpan.innerText;
+          let match = vagasText.match(/\d+/);
+          if (match) {
+            let vagasNum = parseInt(match[0]);
+            if (vagasNum > 1) {
+              vagasNum--;
+              vagasSpan.innerHTML = `<i class="fas fa-chair"></i> ${vagasNum} ${vagasNum === 1 ? 'vaga' : 'vagas'}`;
+            } else if (vagasNum === 1) {
+              vagasSpan.innerHTML = `<i class="fas fa-chair"></i> 0 vagas (esgotado)`;
+            }
+          }
+        }
+      }
+    });
+  });
+
+  // lógica de reações (like e heartbreak) + persistência simples local (incrementos)
+  // vamos armazenar os contadores em memória para que o usuário possa curtir e quebrar coração sem limite, mas sem duplicar infinitamente? 
+  // faremos como interação simples: cada clique aumenta o contador respectivo da confissão
+  // estrutura de dados para manter contadores atualizados
+  let confessionsData = [
+    { text: "Hoje fui tomar café sozinho e alguém puxou assunto. Fez meu dia! 😊", likes: 12, heartbreaks: 3 },
+    { text: "Tenho medo de falar em público mas quero tentar o grupo de debate 😅", likes: 24, heartbreaks: 7 },
+    { text: "Obrigado a quem criou o grupo de corrida matinal. Fiz amigos incríveis! 🥰", likes: 31, heartbreaks: 5 }
+  ];
+
+  // função para atualizar a interface com os dados atuais (reconstruir reações)
+  function updateConfessionsUI() {
+    const container = document.getElementById('confessionsList');
+    if (!container) return;
+    // reconstruir cada card mantendo o texto
+    container.innerHTML = '';
+    confessionsData.forEach((conf, idx) => {
+      const card = document.createElement('div');
+      card.className = 'confession-card';
+      card.setAttribute('data-conf-id', idx);
+      card.innerHTML = `
+        <div class="confession-text">${escapeHtml(conf.text)}</div>
+        <div class="confession-actions">
+          <div class="reaction like-reaction" data-type="like" data-id="${idx}"><i class="far fa-heart"></i> <span class="like-count">${conf.likes}</span></div>
+          <div class="reaction heartbreak-reaction" data-type="heartbreak" data-id="${idx}"><i class="fas fa-heart-broken"></i> <span class="heartbreak-count">${conf.heartbreaks}</span></div>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+    // reattach event listeners para as novas reações
+    attachReactionEvents();
+  }
+
+  function escapeHtml(str) {
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+      return c;
+    });
+  }
+
+  function attachReactionEvents() {
+    const allReactions = document.querySelectorAll('.reaction');
+    allReactions.forEach(reaction => {
+      reaction.removeEventListener('click', reactionClickHandler);
+      reaction.addEventListener('click', reactionClickHandler);
+    });
+  }
+
+  function reactionClickHandler(e) {
+    // garantir que o alvo é o .reaction
+    let targetReaction = e.currentTarget;
+    const type = targetReaction.getAttribute('data-type');
+    const id = parseInt(targetReaction.getAttribute('data-id'));
+    if (isNaN(id)) return;
+
+    if (type === 'like') {
+      confessionsData[id].likes += 1;
+      showToast(`💖 Você curtiu essa confissão! +1 ❤️`);
+    } else if (type === 'heartbreak') {
+      confessionsData[id].heartbreaks += 1;
+      showToast(`💔 Você enviou apoio emocional! +1`);
+    }
+    // atualizar interface
+    updateConfessionsUI();
+  }
+
+  // escrever nova confissão (modal simplificado via prompt)
+  const escreverBtn = document.getElementById('escreverConfissaoBtn');
+  if (escreverBtn) {
+    escreverBtn.addEventListener('click', () => {
+      let novaConfissao = prompt("Escreva sua confissão (pública e anônima):");
+      if (novaConfissao && novaConfissao.trim().length > 0) {
+        const textoFinal = novaConfissao.trim().substring(0, 180);
+        confessionsData.unshift({ text: textoFinal, likes: 0, heartbreaks: 0 });
+        updateConfessionsUI();
+        showToast("📝 Sua confissão foi publicada no mural!");
+      } else if (novaConfissao !== null) {
+        showToast("Confissão vazia, tente novamente :)");
+      }
+    });
+  }
+
+  // inicializar eventos das reações pela primeira vez
+  function initReactions() {
+    attachReactionEvents();
+  }
+
+  // também para garantir que os botões de entrada, estudar etc não percam efeito com possíveis re-renderizações
+  // mas não há re-renderização que remova os grupos, apenas as confissões são reconstruídas, então precisamos reaproveitar
+  // já temos updateConfessionsUI que mantém dados.
+
+  // Adicionar suporte para clique nos corações da interface original (primeira carga)
+  window.addEventListener('DOMContentLoaded', () => {
+    initReactions();
+    // adicional: qualquer outra animação
+    const fakeStyle = document.createElement('style');
+    fakeStyle.textContent = `.reaction { cursor: pointer; transition: 0.1s; } .reaction:active { transform: scale(0.96); }`;
+    document.head.appendChild(fakeStyle);
+  });
+</script>
+</body>
+</html>
