@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Junta Aí · Participar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(145deg, #032363 30%, #e6edf9 150%);
+      color: #1e293b;
+      min-height: 100vh;
+      padding: 20px 16px 80px;
+    }
+    .app-container { max-width: 500px; margin: 0 auto; }
+    .header-bar {
+      display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
+    }
+    .back-btn {
+      background: rgba(255,255,255,0.9); width: 44px; height: 44px;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      color: #032363; font-size: 1.3rem; text-decoration: none;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05); transition: 0.2s;
+    }
+    .back-btn:hover { background: white; transform: scale(0.96); }
+    h1 {
+      font-size: 1.8rem; font-weight: 700;
+      background: linear-gradient(135deg, #032363, #8b5cf6);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .card {
+      background: white; border-radius: 20px; padding: 16px; margin-bottom: 20px;
+      border: 2px solid #032363; box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .tab-switch {
+      display: flex; background: #f1f5f9; border-radius: 40px; padding: 4px; margin-bottom: 20px;
+    }
+    .tab-option {
+      flex: 1; text-align: center; padding: 10px; border-radius: 40px;
+      font-weight: 600; cursor: pointer; transition: 0.2s;
+    }
+    .tab-option.active { background: white; color: #032363; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .section-title {
+      font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+    }
+    .filter-chips {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;
+    }
+    .chip {
+      background: #f1f5f9; padding: 6px 14px; border-radius: 40px;
+      font-size: 0.8rem; font-weight: 500; cursor: pointer;
+      border: 1px solid transparent; transition: 0.1s;
+    }
+    .chip.active { background: #032363; color: white; }
+    .result-item {
+      display: flex; align-items: center; gap: 14px; padding: 16px 0;
+      border-bottom: 1px solid #eef2f6;
+    }
+    .avatar-small {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: linear-gradient(145deg, #a78bfa, #7c3aed);
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-weight: bold; font-size: 1.3rem; flex-shrink: 0;
+    }
+    .group-avatar {
+      background: #cbd5e1; color: #1e293b;
+    }
+    .result-info { flex: 1; }
+    .result-name { font-weight: 700; margin-bottom: 4px; }
+    .result-meta { font-size: 0.75rem; color: #64748b; }
+    .action-btn {
+      background: #032363; color: white; border: none; padding: 8px 16px;
+      border-radius: 30px; font-weight: 600; font-size: 0.75rem; cursor: pointer;
+    }
+    .action-btn:disabled { background: #94a3b8; cursor: not-allowed; }
+    .match-badge {
+      background: #e6f4ea; color: #2c6e2f; font-size: 0.7rem; padding: 2px 8px;
+      border-radius: 30px; margin-left: 8px;
+    }
+    .toast-msg {
+      visibility: hidden; min-width: 200px; background: #1f3a7c;
+      color: white; text-align: center; border-radius: 40px; padding: 12px 20px;
+      position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+      font-size: 0.9rem; opacity: 0; transition: 0.2s; z-index: 1000;
+    }
+    .toast-msg.show { visibility: visible; opacity: 1; }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <div class="header-bar">
+    <a href="Juntaitest.html" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+    <h1><i class="fas fa-user-plus"></i> Participar</h1>
+  </div>
+
+  <!-- Toggle Pessoas / Grupos -->
+  <div class="tab-switch">
+    <div class="tab-option active" data-type="pessoas"><i class="fas fa-user-friends"></i> Pessoas</div>
+    <div class="tab-option" data-type="grupos"><i class="fas fa-users"></i> Grupos</div>
+  </div>
+
+  <!-- Filtros rápidos -->
+  <div class="card">
+    <div class="section-title"><i class="fas fa-sliders-h"></i> Filtrar por</div>
+    <div class="filter-chips" id="filterChipsContainer">
+      <span class="chip active" data-filter="todos">Todos</span>
+      <span class="chip" data-filter="recomendados">⭐ Recomendados</span>
+      <span class="chip" data-filter="online">🟢 Online agora</span>
+      <span class="chip" data-filter="proximos">📍 Próximos</span>
+    </div>
+    <p style="font-size:0.8rem; color:#64748b;" id="filterDescription"></p>
+  </div>
+
+  <!-- Lista de sugestões -->
+  <div class="card">
+    <div class="section-title" id="listTitle"><i class="fas fa-user-friends"></i> Sugestões para você <span id="resultCount"></span></div>
+    <div id="resultsContainer">
+      <!-- Preenchido via JS -->
+    </div>
+  </div>
+</div>
+
+<div id="toastMsg" class="toast-msg">✨ Ação realizada!</div>
+
+<script>
+  (function(){
+    // Dados de exemplo
+    const pessoas = [
+      { id:1, nome:'Marina Lima', curso:'Design', interesses:['cinema','música'], status:'online', distancia:'2 km', match:94, avatar:'M' },
+      { id:2, nome:'Rafael Souza', curso:'Ciência da Computação', interesses:['games','esportes'], status:'offline', distancia:'5 km', match:87, avatar:'R' },
+      { id:3, nome:'Ana Clara', curso:'Engenharia', interesses:['cinema','leitura'], status:'online', distancia:'1 km', match:92, avatar:'A' },
+      { id:4, nome:'João Pedro', curso:'Análise de Sistemas', interesses:['games','viagem'], status:'online', distancia:'3 km', match:85, avatar:'J' },
+      { id:5, nome:'Letícia Santos', curso:'Matemática', interesses:['leitura','música'], status:'offline', distancia:'8 km', match:78, avatar:'L' },
+      { id:6, nome:'Camila Rocha', curso:'Design', interesses:['cinema','viagem'], status:'online', distancia:'0.5 km', match:96, avatar:'C' },
+    ];
+
+    const grupos = [
+      { id:101, nome:'Cinéfilos de Plantão', categoria:'cinema', membros:12, status:'online', tipo:'aberto', match:90, avatar:'🎬' },
+      { id:102, nome:'Futebol Society', categoria:'esportes', membros:18, status:'offline', tipo:'aberto', match:85, avatar:'⚽' },
+      { id:103, nome:'Guilda dos Gamers', categoria:'games', membros:24, status:'online', tipo:'fechado', match:92, avatar:'🎮' },
+      { id:104, nome:'Clube de Leitura', categoria:'leitura', membros:9, status:'online', tipo:'aberto', match:88, avatar:'📚' },
+      { id:105, nome:'Devs em Ação', curso:'Ciência da Computação', membros:15, status:'offline', tipo:'aberto', match:95, avatar:'💻' },
+      { id:106, nome:'Designers Criativos', curso:'Design', membros:11, status:'online', tipo:'aberto', match:89, avatar:'🎨' },
+    ];
+
+    let activeType = 'pessoas';
+    let currentFilter = 'todos';
+    const resultsContainer = document.getElementById('resultsContainer');
+    const listTitle = document.getElementById('listTitle');
+    const resultCountSpan = document.getElementById('resultCount');
+    const filterDesc = document.getElementById('filterDescription');
+    const toast = document.getElementById('toastMsg');
+
+    function showToast(msg, duration=2000) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), duration);
+    }
+
+    function filterData() {
+      let data = activeType === 'pessoas' ? [...pessoas] : [...grupos];
+      
+      if (currentFilter === 'recomendados') {
+        data = data.filter(item => (item.match || 0) >= 85);
+        filterDesc.textContent = 'Mostrando itens com compatibilidade ≥ 85%';
+      } else if (currentFilter === 'online') {
+        data = data.filter(item => item.status === 'online');
+        filterDesc.textContent = 'Mostrando apenas online agora';
+      } else if (currentFilter === 'proximos') {
+        if (activeType === 'pessoas') {
+          data = data.filter(p => p.distancia && parseFloat(p.distancia) <= 3);
+        } else {
+          // para grupos, "próximos" pode ser os com mais membros ou qualquer critério
+          data = data.filter(g => g.membros >= 10);
+        }
+        filterDesc.textContent = activeType === 'pessoas' ? 'Pessoas a até 3 km' : 'Grupos com 10+ membros';
+      } else {
+        filterDesc.textContent = 'Mostrando todos os itens';
+      }
+      return data;
+    }
+
+    function renderResults() {
+      const filtered = filterData();
+      resultCountSpan.textContent = `(${filtered.length})`;
+
+      if (filtered.length === 0) {
+        resultsContainer.innerHTML = `<p style="text-align:center; padding:24px; color:#64748b;"><i class="fas fa-search"></i> Nenhum resultado encontrado.</p>`;
+        return;
+      }
+
+      let html = '';
+      if (activeType === 'pessoas') {
+        listTitle.innerHTML = '<i class="fas fa-user-friends"></i> Pessoas sugeridas <span id="resultCount"></span>';
+        filtered.forEach(p => {
+          html += `<div class="result-item">
+            <div class="avatar-small">${p.avatar}</div>
+            <div class="result-info">
+              <div class="result-name">${p.nome} <span class="match-badge"><i class="fas fa-star"></i> ${p.match}%</span></div>
+              <div class="result-meta">${p.curso} · ${p.interesses.map(i=>'#'+i).join(' ')}</div>
+              <div class="result-meta"><i class="fas fa-map-pin"></i> ${p.distancia} · ${p.status === 'online' ? '🟢 Online' : '⚫ Offline'}</div>
+            </div>
+            <button class="action-btn" data-id="${p.id}" data-nome="${p.nome}">Conectar</button>
+          </div>`;
+        });
+      } else {
+        listTitle.innerHTML = '<i class="fas fa-users"></i> Grupos sugeridos <span id="resultCount"></span>';
+        filtered.forEach(g => {
+          html += `<div class="result-item">
+            <div class="avatar-small group-avatar">${g.avatar}</div>
+            <div class="result-info">
+              <div class="result-name">${g.nome} <span class="match-badge"><i class="fas fa-user"></i> ${g.membros}</span></div>
+              <div class="result-meta">${g.categoria || g.curso} · ${g.tipo === 'aberto' ? '🔓 Aberto' : '🔒 Fechado'}</div>
+              <div class="result-meta">${g.status === 'online' ? '🟢 Ativo agora' : '⏸️ Pausado'}</div>
+            </div>
+            <button class="action-btn" data-id="${g.id}" data-nome="${g.nome}">Participar</button>
+          </div>`;
+        });
+      }
+
+      resultsContainer.innerHTML = html;
+      document.getElementById('resultCount').textContent = `(${filtered.length})`;
+
+      document.querySelectorAll('.action-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const nome = this.dataset.nome;
+          const action = activeType === 'pessoas' ? 'conexão enviada' : 'solicitação enviada para entrar no grupo';
+          showToast(`✨ ${action} para "${nome}"!`);
+          this.disabled = true;
+          this.textContent = activeType === 'pessoas' ? 'Enviado ✓' : 'Solicitado ✓';
+        });
+      });
+    }
+
+    function setupFilters() {
+      const chips = document.querySelectorAll('#filterChipsContainer .chip');
+      chips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          chips.forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          currentFilter = chip.dataset.filter;
+          renderResults();
+        });
+      });
+    }
+
+    function setupTabs() {
+      const tabs = document.querySelectorAll('.tab-option');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          activeType = tab.dataset.type;
+          // Resetar filtro para 'todos' ao trocar de aba
+          document.querySelectorAll('#filterChipsContainer .chip').forEach(c => c.classList.remove('active'));
+          document.querySelector('#filterChipsContainer .chip[data-filter="todos"]').classList.add('active');
+          currentFilter = 'todos';
+          renderResults();
+        });
+      });
+    }
+
+    function init() {
+      setupFilters();
+      setupTabs();
+      renderResults();
+      showToast('👋 Encontre pessoas e grupos para participar!', 2500);
+    }
+
+    init();
+  })();
+</script>
+</body>
+</html>

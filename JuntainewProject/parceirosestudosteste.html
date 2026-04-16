@@ -1,0 +1,672 @@
+
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Junta Aí | Parceiro de Estudos</title>
+  <!-- Google Fonts + Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg , #032363 10%, #e6edf9 100% 100%);
+      font-family: 'Inter', sans-serif;
+      color: #0f172a;
+      padding: 24px 16px 48px 16px;
+      min-height: 100vh;
+    }
+
+    /* Main container */
+    .partner-app {
+      max-width: 680px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 2rem;
+      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      transition: all 0.2s;
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, #1e2b6e, #2b4c9e);
+      padding: 28px 28px 20px 28px;
+      color: white;
+    }
+
+    .header h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      letter-spacing: -0.3px;
+    }
+
+    .header h1 i {
+      font-size: 1.9rem;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    }
+
+    .header p {
+      font-size: 0.85rem;
+      opacity: 0.9;
+      margin-top: 8px;
+    }
+
+    /* Filtros e busca */
+    .filters-section {
+      padding: 20px 24px 12px 24px;
+      background: #fafcff;
+      border-bottom: 1px solid #eef2ff;
+    }
+
+    .search-box {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .search-box input {
+      flex: 1;
+      border: 1px solid #cbd5e1;
+      border-radius: 60px;
+      padding: 12px 18px;
+      font-size: 0.9rem;
+      font-family: 'Inter', sans-serif;
+      background: white;
+      transition: 0.2s;
+    }
+
+    .search-box input:focus {
+      outline: none;
+      border-color: #3b71ca;
+      box-shadow: 0 0 0 3px rgba(59,113,202,0.2);
+    }
+
+    .filter-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .filter-chip {
+      background: #f1f5f9;
+      border: none;
+      padding: 6px 16px;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #334155;
+      cursor: pointer;
+      transition: 0.1s;
+    }
+
+    .filter-chip.active {
+      background: #1e3a8a;
+      color: white;
+    }
+
+    .filter-chip:hover {
+      background: #e0e7ff;
+    }
+
+    /* Lista de parceiros */
+    .partners-list {
+      padding: 8px 24px 24px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .partner-card {
+      background: #ffffff;
+      border-radius: 1.5rem;
+      border: 1px solid #e2edff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+      transition: all 0.2s;
+      overflow: hidden;
+    }
+
+    .partner-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 20px -12px rgba(0, 0, 0, 0.1);
+      border-color: #cbdffc;
+    }
+
+    .card-main {
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .avatar {
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(145deg, #d9e6ff, #c0d4fc);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.7rem;
+      color: #1f3a7c;
+      flex-shrink: 0;
+    }
+
+    .info {
+      flex: 1;
+    }
+
+    .name-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .partner-name {
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: #0f172a;
+    }
+
+    .match-badge {
+      background: #e6f4ea;
+      color: #2c6e2f;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 40px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .course {
+      font-size: 0.8rem;
+      color: #475569;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .availability {
+      font-size: 0.7rem;
+      background: #fef9e3;
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 30px;
+      color: #b45309;
+    }
+
+    .subjects {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .subject-tag {
+      background: #eef2ff;
+      padding: 3px 10px;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: #1e40af;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 12px;
+      border-top: 1px solid #f0f4fe;
+      padding: 16px 20px 18px 20px;
+      background: #fafcff;
+    }
+
+    .btn-convidar {
+      background: #032363;
+      border: none;
+      border-radius: 40px;
+      padding: 10px 24px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-convidar:hover {
+      background: #2b4c9e;
+      transform: scale(0.98);
+    }
+
+    .btn-convidar:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-mensagem {
+      background: #032363;
+      border: 1px solid #cbd5e1;
+      border-radius: 40px;
+      padding: 10px 22px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-mensagem:hover {
+      background: #f8fafc;
+      border-color: #94a3b8;
+    }
+
+    .status-badge {
+      font-size: 0.7rem;
+      background: #e2e8f0;
+      padding: 4px 12px;
+      border-radius: 30px;
+      color: #2d3a5e;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 48px 24px;
+      color: #64748b;
+    }
+
+    .empty-state i {
+      font-size: 3rem;
+      margin-bottom: 12px;
+      opacity: 0.6;
+    }
+
+    /* Toast */
+    .toast-msg {
+      visibility: hidden;
+      min-width: 200px;
+      background-color: #1f3a7c;
+      color: #fff;
+      text-align: center;
+      border-radius: 40px;
+      padding: 10px 20px;
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.8rem;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+      font-weight: 500;
+    }
+
+    .toast-msg.show {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    /* Botão voltar */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.2);
+      padding: 8px 16px;
+      border-radius: 40px;
+      color: white;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin-top: 12px;
+      transition: 0.1s;
+    }
+
+    .back-link:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    @media (max-width: 550px) {
+      .card-main {
+        
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .btn-convidar, .btn-mensagem {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="partner-app">
+  <div class="header">
+    <h1><i class="fas fa-handshake"></i> Parceiro de Estudos</h1>
+    <p>Encontre a pessoa certa para aprender junto, trocar conhecimento e evoluir mais rápido</p>
+    <a href="Juntaitest.html" class="back-link" >Voltar para comunidade</a>
+  </div>
+
+  <div class="filters-section">
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="🔍 Buscar por nome, curso ou matéria...">
+    </div>
+    <div class="filter-buttons">
+      <button class="filter-chip active" data-filter="all">Todos</button>
+      <button class="filter-chip" data-filter="matutino">🌅 Manhã</button>
+      <button class="filter-chip" data-filter="vespertino">🌇 Tarde</button>
+      <button class="filter-chip" data-filter="noturno">🌙 Noite</button>
+      <button class="filter-chip" data-filter="alta-match">🔥 Alta compatibilidade</button>
+    </div>
+  </div>
+
+  <div id="partnersContainer" class="partners-list">
+    <!-- cards serão inseridos dinamicamente -->
+  </div>
+</div>
+<div id="toastMsg" class="toast-msg">✨ Ação registrada!</div>
+
+<script>
+  // Base de dados de parceiros (expandida)
+  const partnersData = [
+    {
+      id: 1,
+      name: "Ana Clara",
+      initials: "AC",
+      course: "Engenharia da Computação",
+      semester: "4º semestre",
+      subjects: ["Cálculo II", "Álgebra Linear", "Programação Funcional"],
+      availability: "Seg/Qua 14h-17h",
+      shift: "vespertino",
+      match: 92,
+      avatarColor: "linear-gradient(145deg, #FFE0B5, #FFB882)",
+      bio: "Apaixonada por matemática e café ☕"
+    },
+    {
+      id: 2,
+      name: "João Pedro",
+      initials: "JP",
+      course: "Sistemas de Informação",
+      semester: "3º semestre",
+      subjects: ["Banco de Dados", "Estrutura de Dados", "POO"],
+      availability: "Ter/Qui 10h-13h",
+      shift: "matutino",
+      match: 87,
+      avatarColor: "linear-gradient(145deg, #C4E0FA, #9AC2E8)",
+      bio: "Amo resolver problemas e código limpo"
+    },
+    {
+      id: 3,
+      name: "Letícia Santos",
+      initials: "LS",
+      course: "Ciência da Computação",
+      semester: "2º semestre",
+      subjects: ["Algoritmos", "Lógica", "Python"],
+      availability: "Seg/Qua 16h-19h",
+      shift: "vespertino",
+      match: 85,
+      avatarColor: "linear-gradient(145deg, #FADADD, #F5B0B8)",
+      bio: "Entusiasta de tech e carreira"
+    },
+    {
+      id: 4,
+      name: "Rafael Oliveira",
+      initials: "RO",
+      course: "Matemática Aplicada",
+      semester: "5º semestre",
+      subjects: ["Cálculo Numérico", "Estatística", "Modelagem"],
+      availability: "Seg/Qua 19h-22h",
+      shift: "noturno",
+      match: 96,
+      avatarColor: "linear-gradient(145deg, #C5E0D4, #A8D0BC)",
+      bio: "Monitor de cálculo, adoro ajudar!"
+    },
+    {
+      id: 5,
+      name: "Camila Rocha",
+      initials: "CR",
+      course: "Engenharia de Software",
+      semester: "4º semestre",
+      subjects: ["Eng. de Requisitos", "Testes", "Front-end"],
+      availability: "Ter/Qui 15h-18h",
+      shift: "vespertino",
+      match: 89,
+      avatarColor: "linear-gradient(145deg, #E2D9FF, #C6B9F5)",
+      bio: "UI/UX lover, vamos criar projetos juntos!"
+    },
+    {
+      id: 6,
+      name: "Thiago Mendes",
+      initials: "TM",
+      course: "Análise de Sistemas",
+      semester: "6º semestre",
+      subjects: ["Cloud", "DevOps", "Redes"],
+      availability: "Sábado 8h-12h",
+      shift: "matutino",
+      match: 78,
+      avatarColor: "linear-gradient(145deg, #D4F1F9, #B0D9E8)",
+      bio: "Foco em infraestrutura e segurança"
+    }
+  ];
+
+  // Estado
+  let invitedStatus = {};   // id -> status (enviado ou não)
+  let currentFilter = "all";
+  let searchTerm = "";
+
+  // Carregar dados salvos do localStorage (convites enviados)
+  function loadInvitedStatus() {
+    const stored = localStorage.getItem("conecta_partner_invites");
+    if (stored) {
+      try {
+        invitedStatus = JSON.parse(stored);
+      } catch(e) {}
+    }
+  }
+
+  function saveInvitedStatus() {
+    localStorage.setItem("conecta_partner_invites", JSON.stringify(invitedStatus));
+  }
+
+  // Enviar convite
+  function sendInvite(partnerId, partnerName) {
+    if (invitedStatus[partnerId]) {
+      showToast(`Você já convidou ${partnerName} para estudar! ✅`);
+      return;
+    }
+    invitedStatus[partnerId] = { invited: true, date: new Date().toISOString() };
+    saveInvitedStatus();
+    showToast(`📚 Convite enviado para ${partnerName}! Vocês podem combinar um horário.`);
+    renderPartners(); // re-renderiza para atualizar botão
+  }
+
+  // Enviar mensagem (simulação)
+  function sendMessage(partnerName) {
+    showToast(`💬 Abrindo chat com ${partnerName}... (em breve)`, 2500);
+    // Aqui poderia abrir modal ou redirecionar para chat, mas simulação
+  }
+
+  // Mostrar toast
+  function showToast(message, duration = 2000) {
+    const toast = document.getElementById('toastMsg');
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, duration);
+  }
+
+  // Filtrar parceiros
+  function filterPartners() {
+    let filtered = [...partnersData];
+    
+    // Filtro de período (shift)
+    if (currentFilter !== "all") {
+      if (currentFilter === "alta-match") {
+        filtered = filtered.filter(p => p.match >= 85);
+      } else {
+        filtered = filtered.filter(p => p.shift === currentFilter);
+      }
+    }
+    
+    // Busca textual
+    if (searchTerm.trim() !== "") {
+      const term = searchTerm.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      filtered = filtered.filter(p => {
+        const nameMatch = p.name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').includes(term);
+        const courseMatch = p.course.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').includes(term);
+        const subjectsMatch = p.subjects.some(s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').includes(term));
+        return nameMatch || courseMatch || subjectsMatch;
+      });
+    }
+    
+    return filtered;
+  }
+
+  // Renderizar cards
+  function renderPartners() {
+    const container = document.getElementById('partnersContainer');
+    const filtered = filterPartners();
+    
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <i class="fas fa-user-friends"></i>
+          <h3>Nenhum parceiro encontrado</h3>
+          <p style="margin-top: 8px;">Tente ajustar os filtros ou buscar por outro termo.</p>
+        </div>
+      `;
+      return;
+    }
+    
+    container.innerHTML = filtered.map(partner => {
+      const isInvited = invitedStatus[partner.id];
+      // Determinar ícone e texto do botão convidar
+      let inviteButtonHtml = '';
+      if (isInvited) {
+        inviteButtonHtml = `<button class="btn-convidar" disabled style="background:#94a3b8;"><i class="fas fa-check-circle"></i> Convite enviado</button>`;
+      } else {
+        inviteButtonHtml = `<button class="btn-convidar" data-id="${partner.id}" data-name="${partner.name}"><i class="fas fa-paper-plane"></i> Convidar para estudar</button>`;
+      }
+      
+      // Match badge dinâmico
+      let matchIcon = partner.match >= 90 ? '🔥' : (partner.match >= 80 ? '⭐' : '📘');
+      
+      return `
+        <div class="partner-card" data-partner-id="${partner.id}">
+          <div class="card-main">
+            <div class="avatar" style="background: ${partner.avatarColor};">${partner.initials}</div>
+            <div class="info">
+              <div class="name-row">
+                <span class="partner-name">${escapeHtml(partner.name)}</span>
+                <span class="match-badge"><i class="fas fa-chart-line"></i> ${partner.match}% compatível ${matchIcon}</span>
+              </div>
+              <div class="course">
+                <i class="fas fa-graduation-cap"></i> ${escapeHtml(partner.course)} · ${partner.semester}
+              </div>
+              <div class="availability">
+                <i class="far fa-calendar-alt"></i> Disponível: ${partner.availability}
+              </div>
+              <div class="subjects">
+                ${partner.subjects.map(subj => `<span class="subject-tag">#${escapeHtml(subj)}</span>`).join('')}
+              </div>
+            </div>
+          </div>
+          <div class="actions">
+            ${inviteButtonHtml}
+            <button class="btn-mensagem" data-name="${partner.name}"><i class="fas fa-comment"></i> Enviar mensagem</button>
+            <span class="status-badge"><i class="fas fa-clock"></i> Responde rápido</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+    
+    // Adicionar event listeners para botões "Convidar"
+    document.querySelectorAll('.btn-convidar[data-id]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const id = parseInt(btn.getAttribute('data-id'));
+        const name = btn.getAttribute('data-name');
+        sendInvite(id, name);
+      });
+    });
+    
+    // Adicionar event listeners para botões "Enviar mensagem"
+    document.querySelectorAll('.btn-mensagem').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const name = btn.getAttribute('data-name');
+        sendMessage(name);
+      });
+    });
+  }
+  
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    });
+  }
+  
+  // Configurar filtros e busca
+  function setupFilters() {
+    const filterChips = document.querySelectorAll('.filter-chip');
+    filterChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        filterChips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        const filterValue = chip.getAttribute('data-filter');
+        currentFilter = filterValue;
+        renderPartners();
+      });
+    });
+    
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', (e) => {
+      searchTerm = e.target.value;
+      renderPartners();
+    });
+  }
+  
+  // Inicialização
+  function init() {
+    loadInvitedStatus();
+    setupFilters();
+    renderPartners();
+    // Adicionar um pequeno efeito de bem-vindo
+    showToast("👋 Encontre seu parceiro de estudos ideal!", 3000);
+  }
+  
+  init();
+</script>
+</body>
+</html>
+```
